@@ -2,6 +2,8 @@
 import React from 'react';
 import Card from '../card/card.component';
 
+import { CardlistContainer } from './cardlist.styles';
+
 const robots = [
   {
     id: 1,
@@ -67,7 +69,7 @@ const robots = [
 
 const CardList = () => {
 	return (
-		<div>
+		<CardlistContainer>
 		{
 			robots.map((user, i) => {
 			return (
@@ -80,7 +82,7 @@ const CardList = () => {
 			)
 		})	
 	}
-	</div>
+	</CardlistContainer>
 	) 
 }
 
