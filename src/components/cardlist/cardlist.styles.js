@@ -5,5 +5,6 @@ export const CardlistContainer = styled.div`
   flex-flow: row wrap;
   justify-content: center;
   align-content: center;
+  padding: 20px;
 
 `;

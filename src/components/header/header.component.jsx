@@ -6,20 +6,24 @@ import { createStructuredSelector } from 'reselect';
 
 import {
   HeaderContainer,
-  LogoContainer,
+  TitleContainer,
+  TylerContainer,
   OptionsContainer,
   OptionLink
 } from './header.styles';
 
 const Header = ({  }) => (
   <HeaderContainer>
-    <LogoContainer to='/'>
-      <div>TYLER'S LIST</div>
-    </LogoContainer>
+    <TitleContainer to='/'>
+      <TylerContainer>TYLER'S</TylerContainer>
+      <span>LIST</span>
+    </TitleContainer>
     <OptionsContainer>
       <OptionLink to='/signin'>SIGN IN</OptionLink>
+      <OptionLink to='/register'>REGISTER</OptionLink>
     </OptionsContainer>
   </HeaderContainer>
+ 
 );
 
 const mapStateToProps = createStructuredSelector({

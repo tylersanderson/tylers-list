@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const HeaderContainer = styled.div`
-  height: 70px;
+  height: 60px;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -10,10 +10,18 @@ export const HeaderContainer = styled.div`
   background-color: black;
 `;
 
-export const LogoContainer = styled(Link)`
+export const TitleContainer = styled(Link)`
+  height: 60px;
+  padding: 1px;
+  color: blue;
+  font-size: 30px;
+  padding: 13px 15px;
+  font-weight: 900;
+`;
+
+export const TylerContainer = styled(Link)`
   height: 100%;
-  width: 100px;
-  padding: 22px;
+  color: white;
 `;
 
 export const OptionsContainer = styled.div`
@@ -27,4 +35,5 @@ export const OptionsContainer = styled.div`
 export const OptionLink = styled(Link)`
   padding: 10px 15px;
   cursor: pointer;
+  color: white;
 `;
