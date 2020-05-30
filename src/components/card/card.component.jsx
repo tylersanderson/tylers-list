@@ -1,7 +1,10 @@
 import React from 'react';
 
 import {
-  CardContainer
+  CardContainer,
+  CardTitle,
+  CardPay,
+  CardStreet
 } from './card.styles';
 
 const Card = (props) => {
@@ -9,9 +12,14 @@ const Card = (props) => {
 		<CardContainer>
 			<img classname='image' alt='robots' src={`https://robohash.org/${props.id}?size=200x200`} />
 			<div>
-				<h2>{props.name}</h2>
-				<p>{props.email}</p>
-			</div>
+				<CardTitle>{props.gigname}</CardTitle>
+        <CardPay>{props.gigpay}</CardPay>
+        <CardStreet>{props.street}
+        <br></br>
+        {props.city}, {props.stateabv} {props.zipcode}
+        </CardStreet>
+        
+      </div>
 		</CardContainer>
 	);
 }

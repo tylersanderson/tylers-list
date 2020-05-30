@@ -7,63 +7,67 @@ import { CardlistContainer } from './cardlist.styles';
 const robots = [
   {
     id: 1,
-    name: 'Leanne Graham',
+    gigname: 'Tree Trimming - Three Ash Trees Need Maintenance',
     username: 'Bret',
-    email: 'Sincere@april.biz'
+    gigpay: '$100',
+    street: '1000 Main Street',
+    city: 'Lincoln',
+    stateabv: 'NE',
+    zipcode: '68510'
   },
   {
     id: 2,
-    name: 'Ervin Howell',
+    gigname: 'Ervin Howell',
     username: 'Antonette',
-    email: 'Shanna@melissa.tv'
+    pay: 'Shanna@melissa.tv'
   },
   {
     id: 3,
-    name: 'Clementine Bauch',
+    gigname: 'Clementine Bauch',
     username: 'Samantha',
-    email: 'Nathan@yesenia.net'
+    pay: 'Nathan@yesenia.net'
   },
   {
     id: 4,
-    name: 'Patricia Lebsack',
+    gigname: 'Patricia Lebsack',
     username: 'Karianne',
-    email: 'Julianne.OConner@kory.org'
+    pay: 'Julianne.OConner@kory.org'
   },
   {
     id: 5,
-    name: 'Chelsey Dietrich',
+    gigname: 'Chelsey Dietrich',
     username: 'Kamren',
-    email: 'Lucio_Hettinger@annie.ca'
+    pay: 'Lucio_Hettinger@annie.ca'
   },
   {
     id: 6,
-    name: 'Mrs. Dennis Schulist',
+    gigname: 'Mrs. Dennis Schulist',
     username: 'Leopoldo_Corkery',
-    email: 'Karley_Dach@jasper.info'
+    pay: 'Karley_Dach@jasper.info'
   },
   {
     id: 7,
-    name: 'Kurtis Weissnat',
+    gigname: 'Kurtis Weissnat',
     username: 'Elwyn.Skiles',
-    email: 'Telly.Hoeger@billy.biz'
+    pay: 'Telly.Hoeger@billy.biz'
   },
   {
     id: 8,
-    name: 'Nicholas Runolfsdottir V',
+    gigname: 'Nicholas Runolfsdottir V',
     username: 'Maxime_Nienow',
-    email: 'Sherwood@rosamond.me'
+    pay: 'Sherwood@rosamond.me'
   },
   {
     id: 9,
-    name: 'Glenna Reichert',
+    gigname: 'Glenna Reichert',
     username: 'Delphine',
-    email: 'Chaim_McDermott@dana.io'
+    pay: 'Chaim_McDermott@dana.io'
   },
   {
     id: 10,
-    name: 'Clementina DuBuque',
+    gigname: 'Clementina DuBuque',
     username: 'Moriah.Stanton',
-    email: 'Rey.Padberg@karina.biz'
+    pay: 'Rey.Padberg@karina.biz'
   }
 ];
 
@@ -76,8 +80,12 @@ const CardList = () => {
 				<Card 
 					key={i}
 					id={robots[i].id} 
-					name={robots[i].name} 
-					email={robots[i].email}
+					gigname={robots[i].gigname} 
+          gigpay={robots[i].gigpay}
+          street={robots[i].street}
+          city={robots[i].city}
+          stateabv={robots[i].stateabv}
+          zipcode={robots[i].zipcode}
 					/>
 			)
 		})	

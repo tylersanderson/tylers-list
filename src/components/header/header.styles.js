@@ -8,20 +8,24 @@ export const HeaderContainer = styled.div`
   justify-content: space-between;
   margin-bottom: 5px;
   background-color: black;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 `;
 
 export const TitleContainer = styled(Link)`
   height: 60px;
-  padding: 1px;
   color: blue;
   font-size: 30px;
-  padding: 13px 15px;
+  padding: 10px 15px;
   font-weight: 900;
+
 `;
 
 export const TylerContainer = styled(Link)`
   height: 100%;
   color: white;
+
 `;
 
 export const OptionsContainer = styled.div`
@@ -36,4 +40,13 @@ export const OptionLink = styled(Link)`
   padding: 10px 15px;
   cursor: pointer;
   color: white;
+
+  &:hover {
+    cursor: pointer;
+
+    button {
+      opacity: 0.85;
+      display: flex;
+    }
+  }
 `;
