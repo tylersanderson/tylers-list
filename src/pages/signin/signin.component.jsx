@@ -1,10 +1,12 @@
 import React from 'react';
 
+import SignIn from '../../components/sign-in/sign-in.component'
+
 import { SignInContainer } from './signin.styles';
 
 const SignInPage = () => (
   <SignInContainer>
-    <h1>Sign In Page</h1>
+    <SignIn></SignIn>
   </SignInContainer>
 );
 

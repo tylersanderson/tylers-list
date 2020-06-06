@@ -1,10 +1,12 @@
 import React from 'react';
 
+import Register from '../../components/register/register.component'
+
 import { RegisterContainer } from './register.styles';
 
 const RegisterPage = () => (
   <RegisterContainer>
-    <h1>Register Page</h1>
+    <Register></Register>
   </RegisterContainer>
 );
 

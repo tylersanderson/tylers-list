@@ -10,7 +10,7 @@ import {
 const Card = (props) => {
 	return (
 		<CardContainer>
-			<img classname='image' alt='robots' src={`https://robohash.org/${props.id}?size=200x200`} />
+			<img className='image' alt='robots' src={`https://robohash.org/${props.id}?size=200x200`} />
 			<div>
 				<CardTitle>{props.gigname}</CardTitle>
         <CardPay>{props.gigpay}</CardPay>

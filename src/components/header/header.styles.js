@@ -13,19 +13,26 @@ export const HeaderContainer = styled.div`
   z-index: 10;
 `;
 
-export const TitleContainer = styled(Link)`
+export const TitleContainer = styled.div`
   height: 60px;
   color: blue;
   font-size: 30px;
   padding: 10px 15px;
   font-weight: 900;
-
+  
 `;
 
 export const TylerContainer = styled(Link)`
   height: 100%;
   color: white;
+  &:hover {
+    cursor: pointer;
+    color: blue;
+`;
 
+export const ListContainer = styled(Link)`
+  height: 100%;
+  color: blue;
 `;
 
 export const OptionsContainer = styled.div`
@@ -43,6 +50,7 @@ export const OptionLink = styled(Link)`
 
   &:hover {
     cursor: pointer;
+    color: blue;
 
     button {
       opacity: 0.85;
