@@ -10,9 +10,11 @@ export const CardContainer = styled.div`
   border-radius: .25rem;
   border-style: groove;
   margin: 10px;
+  transition: transform .3s;
 
   &:hover {
     background-color: lightblue;
+    transform: translateY(-0.25rem) scale(1.03);
     cursor: pointer;
     
     .image {

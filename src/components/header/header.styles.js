@@ -1,5 +1,27 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
+
+const moveInLeft = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateX(-10rem); }
+  80% {
+    transform: translateX(1rem); }
+  100% {
+    opacity: 1;
+    transform: translate(0); }
+  `;
+
+const moveInRight = keyframes`
+    0% {
+      opacity: 0;
+      transform: translateX(10rem); }
+    80% {
+      transform: translateX(-1rem); }
+    100% {
+      opacity: 1;
+      transform: translate(0); }
+  `;
 
 export const HeaderContainer = styled.div`
   height: 60px;
@@ -11,6 +33,7 @@ export const HeaderContainer = styled.div`
   position: sticky;
   top: 0;
   z-index: 10;
+  
 `;
 
 export const TitleContainer = styled.div`
@@ -19,7 +42,13 @@ export const TitleContainer = styled.div`
   font-size: 30px;
   padding: 10px 15px;
   font-weight: 900;
-  
+  animation-name: ${moveInLeft};
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+  transition: transform .3s;
+  &:hover {
+    transform: translateY(-0.1rem) scale(1.03);
+  }
 `;
 
 export const TylerContainer = styled(Link)`
@@ -28,6 +57,7 @@ export const TylerContainer = styled(Link)`
   &:hover {
     cursor: pointer;
     color: blue;
+  }
 `;
 
 export const ListContainer = styled(Link)`
@@ -41,6 +71,10 @@ export const OptionsContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  animation-name: ${moveInRight};
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+  transition: transform .3s;
 `;
 
 export const OptionLink = styled(Link)`
@@ -49,6 +83,7 @@ export const OptionLink = styled(Link)`
   color: white;
 
   &:hover {
+    transform: translateY(-0.1rem) scale(1.03);
     cursor: pointer;
     color: blue;
 
