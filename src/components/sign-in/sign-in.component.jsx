@@ -6,6 +6,9 @@ import { withRouter } from 'react-router-dom';
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 
+import { setCurrentUser } from '../../redux/user/user.actions';
+import { selectCurrentUser } from '../../redux/user/user.selectors';
+
 import {
   SignInContainer,
   SignInTitle,
@@ -26,25 +29,51 @@ class SignIn extends React.Component {
     window.sessionStorage.setItem('token', token)
   }
 
-  handleSubmit = ({history}) => {
+  handleSubmit = async event => {
+    event.preventDefault();
     const { email, password } = this.state;
+    //const { setCurrentUser } = this.props;
 
-    fetch('http://192.168.99.100:3000/signin', {
-      method: 'post',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        email: email,
-        password: password
+    try {
+      await fetch('http://192.168.99.100:3000/signin', {
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          email: email,
+          password: password
+        })
       })
-    })
-		.then(response => response.json())
-		.then(data => {
-			if (data.userId && data.success === 'true') {
-        this.saveAuthTokenInSession(data.token);
-        history.push('/');
+      .then (response => response.json())
+      .then(data => {
+        if (data.userId && data.success === 'true') {
+          this.saveAuthTokenInSession(data.token);
+          // history.push('/');
+        };
+      })
+    .then(resp => resp.json())
+      .then(data => {
+        if (data && data.id) {
+          fetch(`http://192.168.99.100:3000/profile/${data.id}`, {
+            method: 'get',
+            headers: {
+            'Content-Type': 'application/json',
+            'Authorization': window.sessionStorage.getItem('token')
+            }
+          })
+            .then(resp => resp.json())
+            .then(user => {
+              if (user && user.email) {
+                setCurrentUser(user);
+                console.log(this.props.currentUser)
+              }
+            })
+        }
+      })
+
+      } catch (err) {
+        console.log(err);
       };
-    });
-  };
+  }
 
   handleChange = event => {
     const { value, name } = event.target;
@@ -85,7 +114,14 @@ class SignIn extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-
+  currentUser: selectCurrentUser
 });
 
-export default withRouter(connect(mapStateToProps)(SignIn));
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SignIn);

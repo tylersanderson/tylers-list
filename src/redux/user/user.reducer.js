@@ -11,6 +11,15 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         currentUser: action.payload
       };
+    case UserActionTypes.CLEAR_CURRENT_USER:
+      return {
+        ...state,
+        currentUser: null,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': window.sessionStorage.clear()
+        }
+      };
     default:
       return state;
   }

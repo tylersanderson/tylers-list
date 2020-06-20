@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import { selectCurrentUser } from '../../redux/user/user.selectors';
+import { clearCurrentUser } from '../../redux/user/user.actions';
 //import { ReactComponent as Logo } from '../../assets/crown.svg';
 
 import {
@@ -14,7 +15,7 @@ import {
   OptionLink
 } from './header.styles';
 
-const Header = ({ currentUser }) => (
+const Header = ({ currentUser, clearCurrentUser }) => (
   <HeaderContainer>
     <TitleContainer>
       <TylerContainer to='/'>TYLER'S</TylerContainer>
@@ -23,7 +24,7 @@ const Header = ({ currentUser }) => (
     {currentUser ? (
       <OptionsContainer>
         <OptionLink to='/mygigs'>MY GIGS</OptionLink>,
-        <OptionLink as='div' >
+        <OptionLink as='div' onClick={clearCurrentUser}>
             SIGN OUT
         </OptionLink>
       </OptionsContainer>
@@ -43,7 +44,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-
+  clearCurrentUser: user => dispatch(clearCurrentUser(user))
 });
 
 export default connect(

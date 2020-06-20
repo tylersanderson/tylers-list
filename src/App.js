@@ -43,7 +43,6 @@ class App extends React.Component {
             .then(resp => resp.json())
             .then(user => {
               if (user && user.email) {
-                this.loadUser(user);
                 setCurrentUser(user);
                 console.log(this.props.currentUser)
               }
