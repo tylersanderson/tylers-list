@@ -32,10 +32,10 @@ class SignIn extends React.Component {
   handleSubmit = async event => {
     event.preventDefault();
     const { email, password } = this.state;
-    //const { setCurrentUser } = this.props;
-
+    const { history } = this.props;
+    
     try {
-      await fetch('http://192.168.99.100:3000/signin', {
+      let signin = await fetch('http://192.168.99.100:3000/signin', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -43,37 +43,49 @@ class SignIn extends React.Component {
           password: password
         })
       })
-      .then (response => response.json())
-      .then(data => {
-        if (data.userId && data.success === 'true') {
-          this.saveAuthTokenInSession(data.token);
-          // history.push('/');
-        };
-      })
-    .then(resp => resp.json())
-      .then(data => {
-        if (data && data.id) {
-          fetch(`http://192.168.99.100:3000/profile/${data.id}`, {
-            method: 'get',
-            headers: {
+      let data = await signin.json()
+      console.log(data)
+      // const saveToken = data => {
+      if (data.userId && data.success === 'true') {
+        this.saveAuthTokenInSession(data.token);
+      };
+
+      const token = window.sessionStorage.getItem('token');
+      const {setCurrentUser } = this.props;
+
+      if (token) {
+        await fetch('http://192.168.99.100:3000/signin', {
+          method: 'post',
+          headers: {
             'Content-Type': 'application/json',
-            'Authorization': window.sessionStorage.getItem('token')
-            }
-          })
-            .then(resp => resp.json())
-            .then(user => {
-              if (user && user.email) {
-                setCurrentUser(user);
-                console.log(this.props.currentUser)
+            'Authorization': token
+          }
+        })
+        .then(resp => resp.json())
+        .then(data => {
+          if (data && data.id) {
+            fetch(`http://192.168.99.100:3000/profile/${data.id}`, {
+              method: 'get',
+              headers: {
+              'Content-Type': 'application/json',
+              'Authorization': token
               }
             })
-        }
-      })
-
+              .then(resp => resp.json())
+              .then(user => {
+                if (user && user.email) {
+                  setCurrentUser(user);
+                }
+              })
+          }
+        })
+      }
+        history.push('/');
       } catch (err) {
         console.log(err);
       };
   }
+
 
   handleChange = event => {
     const { value, name } = event.target;
@@ -82,7 +94,7 @@ class SignIn extends React.Component {
   };
 
     render() {
-    return (
+      return (
       <SignInContainer>
         <SignInTitle>I already have an account</SignInTitle>
         <span>Sign in with your email and password</span>
@@ -121,7 +133,7 @@ const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user))
 });
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(SignIn);
+)(SignIn));

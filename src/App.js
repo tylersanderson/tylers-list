@@ -14,13 +14,15 @@ import Header from './components/header/header.component';
 
 import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
+import { setUnassignedGigs } from './redux/gigs/gigs.actions';
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
     const token = window.sessionStorage.getItem('token');
-    const {setCurrentUser } = this.props;
+    const { setCurrentUser } = this.props;
+    const { setUnassignedGigs } = this.props;
 
     if (token) {
       fetch('http://192.168.99.100:3000/signin', {
@@ -50,6 +52,23 @@ class App extends React.Component {
         }
       })
     }
+
+    if (token) {
+      fetch('http://192.168.99.100:3000/gigs/false', {
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        }
+      })
+      .then(resp => resp.json())
+      .then(gigs => {
+          if (true) {
+        setUnassignedGigs(gigs);
+          }
+      })
+    }
+
   }
 
   loadUser = (data) => {
@@ -107,7 +126,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setCurrentUser: user => dispatch(setCurrentUser(user))
+  setCurrentUser: user => dispatch(setCurrentUser(user)),
+  setUnassignedGigs: gigs => dispatch(setUnassignedGigs(gigs))
 });
 
 export default connect(
