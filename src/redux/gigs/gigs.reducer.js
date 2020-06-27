@@ -1,7 +1,8 @@
 import { GigsActionTypes } from './gigs.types';
 
 const INITIAL_STATE = {
-  unassignedGigs: []
+  unassignedGigs: [],
+  myGigs: []
 };
 
 const gigsReducer = (state = INITIAL_STATE, action) => {
@@ -10,6 +11,11 @@ const gigsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         unassignedGigs: action.payload
+      };
+    case GigsActionTypes.SET_MY_GIGS:
+      return {
+        ...state,
+        myGigs: action.payload
       };
     default:
       return state;

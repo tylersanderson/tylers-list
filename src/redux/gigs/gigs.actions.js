@@ -5,4 +5,7 @@ export const setUnassignedGigs = gigs => ({
   payload: gigs
 });
 
-
+export const setMyGigs = gigs => ({
+  type: GigsActionTypes.SET_MY_GIGS,
+  payload: gigs
+});

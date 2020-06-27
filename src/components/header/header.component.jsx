@@ -21,7 +21,7 @@ const Header = ({ currentUser, clearCurrentUser }) => (
       <TylerContainer to='/'>TYLER'S</TylerContainer>
       <ListContainer to='/'>LIST</ListContainer>
     </TitleContainer>
-    {currentUser ? (
+    {currentUser.id ? (
       <OptionsContainer>
         <OptionLink to='/mygigs'>MY GIGS</OptionLink>,
         <OptionLink as='div' onClick={clearCurrentUser}>

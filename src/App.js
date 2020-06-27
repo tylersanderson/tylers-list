@@ -14,18 +14,18 @@ import Header from './components/header/header.component';
 
 import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
-import { setUnassignedGigs } from './redux/gigs/gigs.actions';
+import { setUnassignedGigs, setMyGigs } from './redux/gigs/gigs.actions';
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
 
-  componentDidMount() {
+  async componentDidMount() {
     const token = window.sessionStorage.getItem('token');
     const { setCurrentUser } = this.props;
-    const { setUnassignedGigs } = this.props;
+    const { setUnassignedGigs, setMyGigs } = this.props;
 
-    if (token) {
-      fetch('http://192.168.99.100:3000/signin', {
+    try { if (token) {
+      await fetch('http://192.168.99.100:3000/signin', {
         method: 'post',
         headers: {
           'Content-Type': 'application/json',
@@ -52,9 +52,28 @@ class App extends React.Component {
         }
       })
     }
+    if (token) {
+        fetch(`http://192.168.99.100:3000/gigs/false/${this.props.currentUser.id}`, {
+          method: 'get',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          }
+        })
+        .then(resp => resp.json())
+        .then(gigs => {
+            if (true) {
+          setMyGigs(gigs);
+            }
+        })
+      }
+      
+  } catch (err) {
+      }
+    
 
     if (true) {
-      fetch('http://192.168.99.100:3000/gigs/false', {
+      fetch('http://192.168.99.100:3000/gigs/false/0', {
         method: 'get',
         headers: {
           'Content-Type': 'application/json',
@@ -68,7 +87,6 @@ class App extends React.Component {
           }
       })
     }
-
   }
 
   loadUser = (data) => {
@@ -97,7 +115,7 @@ class App extends React.Component {
             exact
             path='/signin'
             render={() =>
-              this.props.currentUser ? (
+              this.props.currentUser.id ? (
                 <Redirect to='/' />
               ) : (
                 <SignInPage />
@@ -108,7 +126,7 @@ class App extends React.Component {
             exact
             path='/mygigs'
             render={() =>
-              this.props.currentUser ? (
+              this.props.currentUser.id ? (
                 <MyGigsPage />
               ) : (
                 <Redirect to='/signin' />
@@ -127,7 +145,8 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user)),
-  setUnassignedGigs: gigs => dispatch(setUnassignedGigs(gigs))
+  setUnassignedGigs: gigs => dispatch(setUnassignedGigs(gigs)),
+  setMyGigs: gigs => dispatch(setMyGigs(gigs))
 });
 
 export default connect(

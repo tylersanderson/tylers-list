@@ -8,7 +8,7 @@ import CustomButton from '../custom-button/custom-button.component';
 
 import { setCurrentUser } from '../../redux/user/user.actions';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
-import { setUnassignedGigs } from '../../redux/gigs/gigs.actions';
+import { setUnassignedGigs, setMyGigs } from '../../redux/gigs/gigs.actions';
 
 import {
   SignInContainer,
@@ -53,7 +53,7 @@ class SignIn extends React.Component {
 
       const token = window.sessionStorage.getItem('token');
       const {setCurrentUser } = this.props;
-      const { setUnassignedGigs } = this.props;
+      const { setUnassignedGigs, setMyGigs } = this.props;
 
       if (token) {
         await fetch('http://192.168.99.100:3000/signin', {
@@ -83,8 +83,52 @@ class SignIn extends React.Component {
         })
       }
 
+      if (token) {
+        await fetch('http://192.168.99.100:3000/signin', {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          }
+        })
+        .then(resp => resp.json())
+        .then(data => {
+          if (data && data.id) {
+            fetch(`http://192.168.99.100:3000/profile/${data.id}`, {
+              method: 'get',
+              headers: {
+              'Content-Type': 'application/json',
+              'Authorization': token
+              }
+            })
+              .then(resp => resp.json())
+              .then(user => {
+                if (user && user.email) {
+                  setCurrentUser(user);
+                }
+              })
+          }
+        })
+      }
+
+      if (token) {
+        await fetch(`http://192.168.99.100:3000/gigs/false/${this.props.currentUser.id}`, {
+          method: 'get',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          }
+        })
+        .then(resp => resp.json())
+        .then(gigs => {
+            if (true) {
+          setMyGigs(gigs);
+            }
+        })
+      }
+
       if (true) {
-        fetch('http://192.168.99.100:3000/gigs/false', {
+        fetch('http://192.168.99.100:3000/gigs/false/0', {
           method: 'get',
           headers: {
             'Content-Type': 'application/json',
@@ -99,7 +143,7 @@ class SignIn extends React.Component {
         })
       }
 
-        history.push('/');
+        // history.push('/');
       } catch (err) {
         console.log(err);
       };
@@ -150,7 +194,8 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user)),
-  setUnassignedGigs: gigs => dispatch(setUnassignedGigs(gigs))
+  setUnassignedGigs: gigs => dispatch(setUnassignedGigs(gigs)),
+  setMyGigs: gigs => dispatch(setMyGigs(gigs))
 });
 
 export default withRouter(connect(
