@@ -4,16 +4,19 @@ import {
   CardContainer,
   CardTitle,
   CardPay,
-  CardStreet
+  CardStreet,
+  CardImage
 } from './card.styles';
 
 const Card = (props) => {
 	return (
-		<CardContainer>
-			<img className='image' alt='robots' src={`https://robohash.org/${props.id}?size=200x200`} />
+    <CardContainer>
+      <CardImage>
+        <img className='image' alt='robots' src={`${props.gigimage}`} />
+      </CardImage>
 			<div>
 				<CardTitle>{props.gigname}</CardTitle>
-        <CardPay>{props.gigpay}</CardPay>
+        <CardPay>${props.gigpay}</CardPay>
         <CardStreet>{props.street}
         <br></br>
         {props.city}, {props.stateabv} {props.zipcode}

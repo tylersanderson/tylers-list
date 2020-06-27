@@ -1,7 +1,7 @@
 import { GigsActionTypes } from './gigs.types';
 
 const INITIAL_STATE = {
-  unassignedGigs: null
+  unassignedGigs: []
 };
 
 const gigsReducer = (state = INITIAL_STATE, action) => {

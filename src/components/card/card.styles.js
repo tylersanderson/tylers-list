@@ -28,6 +28,16 @@ export const CardContainer = styled.div`
   }
 `;
 
+export const CardImage = styled.div`
+  margin-top: 25px;
+
+  .image {
+    max-width: 250px;
+  }
+
+`;
+
+
 export const CardTitle = styled.div`
   font-size: 20px;
   text-align: center;
