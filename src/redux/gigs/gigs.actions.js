@@ -9,3 +9,8 @@ export const setMyGigs = gigs => ({
   type: GigsActionTypes.SET_MY_GIGS,
   payload: gigs
 });
+
+export const clearMyGigs = gigs => ({
+  type: GigsActionTypes.CLEAR_MY_GIGS,
+  payload: gigs
+});

@@ -24,6 +24,24 @@ class App extends React.Component {
     const { setCurrentUser } = this.props;
     const { setUnassignedGigs, setMyGigs } = this.props;
 
+    const getMyGigs = () => {
+      if (token) {
+        fetch(`http://192.168.99.100:3000/gigs/false/${this.props.currentUser.id}`, {
+          method: 'get',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          }
+        })
+        .then(resp => resp.json())
+        .then(gigs => {
+            if (true) {
+          setMyGigs(gigs);
+            }
+        })
+      }
+    }
+
     try { if (token) {
       await fetch('http://192.168.99.100:3000/signin', {
         method: 'post',
@@ -46,31 +64,15 @@ class App extends React.Component {
             .then(user => {
               if (user && user.email) {
                 setCurrentUser(user);
-                console.log(this.props.currentUser)
+                console.log(this.props.currentUser.id);
+                getMyGigs();
               }
             })
         }
       })
+    }} catch (err) {
+      console.log(err)
     }
-    if (token) {
-        fetch(`http://192.168.99.100:3000/gigs/false/${this.props.currentUser.id}`, {
-          method: 'get',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': token
-          }
-        })
-        .then(resp => resp.json())
-        .then(gigs => {
-            if (true) {
-          setMyGigs(gigs);
-            }
-        })
-      }
-      
-  } catch (err) {
-      }
-    
 
     if (true) {
       fetch('http://192.168.99.100:3000/gigs/false/0', {
@@ -83,7 +85,7 @@ class App extends React.Component {
       .then(resp => resp.json())
       .then(gigs => {
           if (true) {
-        setUnassignedGigs(gigs);
+            setUnassignedGigs(gigs);
           }
       })
     }
@@ -102,6 +104,25 @@ class App extends React.Component {
 
   componentWillUnmount() {
 
+  }
+
+  componentDidUpdate() {
+    const token = window.sessionStorage.getItem('token');
+    if (token) {
+          fetch(`http://192.168.99.100:3000/gigs/false/${this.props.currentUser.id}`, {
+            method: 'get',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': token
+            }
+          })
+          .then(resp => resp.json())
+          .then(gigs => {
+              if (true) {
+            setMyGigs(gigs);
+              }
+          })
+    }
   }
 
   render() {

@@ -17,6 +17,11 @@ const gigsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         myGigs: action.payload
       };
+    case GigsActionTypes.CLEAR_MY_GIGS:
+      return {
+        ...state,
+        myGigs: []
+      };
     default:
       return state;
   }

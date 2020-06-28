@@ -30,10 +30,31 @@ class SignIn extends React.Component {
     window.sessionStorage.setItem('token', token)
   }
 
+  getMyGigs = (userId) => {
+    const token = window.sessionStorage.getItem('token');
+    const { setMyGigs } = this.props;
+    if (token) {
+      fetch(`http://192.168.99.100:3000/gigs/false/${userId}`, {
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        }
+      })
+      .then(resp => resp.json())
+      .then(gigs => {
+          if (true) {
+            setMyGigs(gigs);
+          }
+      })
+    }
+  }
+
   handleSubmit = async event => {
     event.preventDefault();
     const { email, password } = this.state;
     const { history } = this.props;
+    
     
     try {
       let signin = await fetch('http://192.168.99.100:3000/signin', {
@@ -52,8 +73,8 @@ class SignIn extends React.Component {
       };
 
       const token = window.sessionStorage.getItem('token');
-      const {setCurrentUser } = this.props;
-      const { setUnassignedGigs, setMyGigs } = this.props;
+      const { setCurrentUser } = this.props;
+      const { setUnassignedGigs } = this.props;
 
       if (token) {
         await fetch('http://192.168.99.100:3000/signin', {
@@ -77,55 +98,57 @@ class SignIn extends React.Component {
               .then(user => {
                 if (user && user.email) {
                   setCurrentUser(user);
+                  console.log(user.id);
+                  this.getMyGigs(user.id);
                 }
               })
           }
         })
       }
 
-      if (token) {
-        await fetch('http://192.168.99.100:3000/signin', {
-          method: 'post',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': token
-          }
-        })
-        .then(resp => resp.json())
-        .then(data => {
-          if (data && data.id) {
-            fetch(`http://192.168.99.100:3000/profile/${data.id}`, {
-              method: 'get',
-              headers: {
-              'Content-Type': 'application/json',
-              'Authorization': token
-              }
-            })
-              .then(resp => resp.json())
-              .then(user => {
-                if (user && user.email) {
-                  setCurrentUser(user);
-                }
-              })
-          }
-        })
-      }
+      // if (token) {
+      //   await fetch('http://192.168.99.100:3000/signin', {
+      //     method: 'post',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //       'Authorization': token
+      //     }
+      //   })
+      //   .then(resp => resp.json())
+      //   .then(data => {
+      //     if (data && data.id) {
+      //       fetch(`http://192.168.99.100:3000/profile/${data.id}`, {
+      //         method: 'get',
+      //         headers: {
+      //         'Content-Type': 'application/json',
+      //         'Authorization': token
+      //         }
+      //       })
+      //         .then(resp => resp.json())
+      //         .then(user => {
+      //           if (user && user.email) {
+      //             setCurrentUser(user);
+      //           }
+      //         })
+      //     }
+      //   })
+      // }
 
-      if (token) {
-        await fetch(`http://192.168.99.100:3000/gigs/false/${this.props.currentUser.id}`, {
-          method: 'get',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': token
-          }
-        })
-        .then(resp => resp.json())
-        .then(gigs => {
-            if (true) {
-          setMyGigs(gigs);
-            }
-        })
-      }
+      // if (token) {
+      //   await fetch(`http://192.168.99.100:3000/gigs/false/${this.props.currentUser.id}`, {
+      //     method: 'get',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //       'Authorization': token
+      //     }
+      //   })
+      //   .then(resp => resp.json())
+      //   .then(gigs => {
+      //       if (true) {
+      //     setMyGigs(gigs);
+      //       }
+      //   })
+      // }
 
       if (true) {
         fetch('http://192.168.99.100:3000/gigs/false/0', {
@@ -142,8 +165,7 @@ class SignIn extends React.Component {
             }
         })
       }
-
-        // history.push('/');
+        history.push('/');
       } catch (err) {
         console.log(err);
       };
@@ -189,7 +211,7 @@ class SignIn extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser
+  //currentUser: selectCurrentUser
 });
 
 const mapDispatchToProps = dispatch => ({
