@@ -25,6 +25,7 @@ const Header = ({ currentUser, clearCurrentUser, clearMyGigs }) => (
     {currentUser.id ? (
       <OptionsContainer>
         <OptionLink to='/mygigs'>MY GIGS</OptionLink>,
+        <OptionLink to='/postgig'>POST GIG</OptionLink>,
         <OptionLink as='div' onClick={() => {clearCurrentUser(); clearMyGigs()}}>
             SIGN OUT
         </OptionLink>

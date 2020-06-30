@@ -8,7 +8,8 @@ import './App.css';
 import HomePage from './pages/homepage/homepage.component';
 import RegisterPage from './pages/register/register.component';
 import SignInPage from './pages/signin/signin.component';
-import MyGigsPage from './pages/mygigs/mygigs.component';
+import MyGigsPage from './pages/my-gigs/my-gigs.component';
+import PostGigPage from './pages/post-gig/post-gig.component';
 
 import Header from './components/header/header.component';
 
@@ -35,7 +36,7 @@ class App extends React.Component {
         })
         .then(resp => resp.json())
         .then(gigs => {
-            if (true) {
+            if (gigs && gigs.gignumber) {
           setMyGigs(gigs);
             }
         })
@@ -106,25 +107,6 @@ class App extends React.Component {
 
   }
 
-  componentDidUpdate() {
-    const token = window.sessionStorage.getItem('token');
-    if (token) {
-          fetch(`http://192.168.99.100:3000/gigs/false/${this.props.currentUser.id}`, {
-            method: 'get',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': token
-            }
-          })
-          .then(resp => resp.json())
-          .then(gigs => {
-              if (true) {
-            setMyGigs(gigs);
-              }
-          })
-    }
-  }
-
   render() {
     return (
       <div>
@@ -149,6 +131,17 @@ class App extends React.Component {
             render={() =>
               this.props.currentUser.id ? (
                 <MyGigsPage />
+              ) : (
+                <Redirect to='/signin' />
+              )
+            }
+          />
+          <Route
+            exact
+            path='/postgig'
+            render={() =>
+              this.props.currentUser.id ? (
+                <PostGigPage />
               ) : (
                 <Redirect to='/signin' />
               )

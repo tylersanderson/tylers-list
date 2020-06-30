@@ -43,7 +43,7 @@ class SignIn extends React.Component {
       })
       .then(resp => resp.json())
       .then(gigs => {
-          if (true) {
+          if (gigs[0].gignumber) {
             setMyGigs(gigs);
           }
       })
@@ -105,50 +105,6 @@ class SignIn extends React.Component {
           }
         })
       }
-
-      // if (token) {
-      //   await fetch('http://192.168.99.100:3000/signin', {
-      //     method: 'post',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //       'Authorization': token
-      //     }
-      //   })
-      //   .then(resp => resp.json())
-      //   .then(data => {
-      //     if (data && data.id) {
-      //       fetch(`http://192.168.99.100:3000/profile/${data.id}`, {
-      //         method: 'get',
-      //         headers: {
-      //         'Content-Type': 'application/json',
-      //         'Authorization': token
-      //         }
-      //       })
-      //         .then(resp => resp.json())
-      //         .then(user => {
-      //           if (user && user.email) {
-      //             setCurrentUser(user);
-      //           }
-      //         })
-      //     }
-      //   })
-      // }
-
-      // if (token) {
-      //   await fetch(`http://192.168.99.100:3000/gigs/false/${this.props.currentUser.id}`, {
-      //     method: 'get',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //       'Authorization': token
-      //     }
-      //   })
-      //   .then(resp => resp.json())
-      //   .then(gigs => {
-      //       if (true) {
-      //     setMyGigs(gigs);
-      //       }
-      //   })
-      // }
 
       if (true) {
         fetch('http://192.168.99.100:3000/gigs/false/0', {
