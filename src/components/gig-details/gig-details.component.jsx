@@ -11,12 +11,12 @@ import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { setUnassignedGigs, setMyGigs } from '../../redux/gigs/gigs.actions';
 
 import {
-  SignInContainer,
+  GigDetailsContainer,
   SignInTitle,
   ButtonsBarContainer
-} from './sign-in.styles';
+} from './gig-details.styles';
 
-class SignIn extends React.Component {
+class GigDetails extends React.Component {
   constructor(props) {
     super(props);
 
@@ -136,32 +136,34 @@ class SignIn extends React.Component {
 
     render() {
       return (
-      <SignInContainer>
-        <SignInTitle>I already have an account</SignInTitle>
-        <span>Sign in with your email and password</span>
+      <div>
+        <GigDetailsContainer>
+          <SignInTitle>I already have an account</SignInTitle>
+          <span>Sign in with your email and password</span>
 
-        <form onSubmit={this.handleSubmit}>
-          <FormInput
-            name='email'
-            type='email'
-            handleChange={this.handleChange}
-            value={this.state.email}
-            label='email'
-            required
-          />
-          <FormInput
-            name='password'
-            type='password'
-            value={this.state.password}
-            handleChange={this.handleChange}
-            label='password'
-            required
-          />
-          <ButtonsBarContainer>
-            <CustomButton type='submit'> Sign in </CustomButton>
-          </ButtonsBarContainer>
-        </form>
-      </SignInContainer>
+          <form onSubmit={this.handleSubmit}>
+            <FormInput
+              name='email'
+              type='email'
+              handleChange={this.handleChange}
+              value={this.state.email}
+              label='email'
+              required
+            />
+            <FormInput
+              name='password'
+              type='password'
+              value={this.state.password}
+              handleChange={this.handleChange}
+              label='password'
+              required
+            />
+            <ButtonsBarContainer>
+              <CustomButton type='submit'> Sign in </CustomButton>
+            </ButtonsBarContainer>
+          </form>
+        </GigDetailsContainer>
+      </div>
     );
   }
 }
@@ -179,4 +181,4 @@ const mapDispatchToProps = dispatch => ({
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(SignIn));
+)(GigDetails));

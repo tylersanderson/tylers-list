@@ -76,7 +76,7 @@ class App extends React.Component {
     }
 
     if (true) {
-      fetch('http://192.168.99.100:3000/gigs/false/0', {
+      fetch('http://192.168.99.100:3000/gigsunassigned', {
         method: 'get',
         headers: {
           'Content-Type': 'application/json',

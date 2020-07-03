@@ -1,4 +1,6 @@
 import React from 'react';
+import Modal from '../Modal/Model'
+import GigDetails from '../gig-details/gig-details.component';
 
 import {
   CardContainer,
@@ -8,23 +10,49 @@ import {
   CardImage
 } from './card.styles';
 
-const Card = (props) => {
-	return (
-    <CardContainer>
-      <CardImage>
-        <img className='image' alt='robots' src={`${props.gigimage}`} />
-      </CardImage>
-			<div>
-				<CardTitle>{props.gigname}</CardTitle>
-        <CardPay>${props.gigpay}</CardPay>
-        <CardStreet>{props.street}
-        <br></br>
-        {props.city}, {props.stateabv} {props.zipcode}
-        </CardStreet>
-        
+class Card extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			isGigModalOpen: false,
+		}
+  }
+  
+  toggleGigModal =() => {
+    this.setState(prevState => ({
+      ...prevState,
+      isGigModalOpen: !prevState.isGigModalOpen
+    }))
+  }
+  
+  render() {
+    const {isGigModalOpen} = this.state;
+    return(
+      <div>
+        <CardContainer onClick={this.toggleGigModal}>
+          <CardImage>
+            <img className='image' alt='robots' src={`${this.props.gigimage}`} />
+          </CardImage>
+          <div>
+            <CardTitle>{this.props.gigname}</CardTitle>
+            <CardPay>${this.props.gigpay}</CardPay>
+            <CardStreet>{this.props.street}
+            <br></br>
+            {this.props.city}, {this.props.stateabv} {this.props.zipcode}
+            </CardStreet>
+          </div>
+        </CardContainer>
+        <div>
+          { isGigModalOpen && 
+            <Modal>
+              <GigDetails/>
+            </Modal>
+          }
+        </div>
+
       </div>
-		</CardContainer>
-	);
+    )
+  }
 }
 
 export default Card;
