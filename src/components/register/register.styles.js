@@ -12,7 +12,7 @@ const moveInBottom = keyframes`
 export const RegisterContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 380px;
+  width: 350px;
   animation-name: ${moveInBottom};
   animation-duration: .5s;
   animation-timing-function: ease-out;

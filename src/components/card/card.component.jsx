@@ -7,7 +7,7 @@ import {
   CardTitle,
   CardPay,
   CardStreet,
-  CardImage
+  CardImage,
 } from './card.styles';
 
 class Card extends React.Component {
@@ -42,14 +42,25 @@ class Card extends React.Component {
             </CardStreet>
           </div>
         </CardContainer>
-        <div>
-          { isGigModalOpen && 
-            <Modal>
-              <GigDetails/>
-            </Modal>
-          }
-        </div>
-
+        { isGigModalOpen &&
+          <Modal>
+            <GigDetails
+              toggleGigModal={this.toggleGigModal}
+              gignumber={this.props.gignumber}
+              gigpostedby={this.props.gigpostedby}
+              gigassignedto={this.props.gigassignedto} 
+              gigname={this.props.gigname} 
+              gigpay={this.props.gigpay}
+              street={this.props.street}
+              city={this.props.city}
+              stateabv={this.props.stateabv}
+              zipcode={this.props.zipcode}
+              gignotes={this.props.gignotes}
+              isgigcomplete={this.props.isgigcomplete}
+              gigimage={this.props.gigimage}
+            />
+          </Modal>
+        }
       </div>
     )
   }

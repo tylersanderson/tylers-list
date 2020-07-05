@@ -26,6 +26,7 @@ const moveInRight = keyframes`
 export const HeaderContainer = styled.div`
   height: 60px;
   width: 100%;
+  min-width: 350px;
   display: flex;
   justify-content: space-between;
   margin-bottom: 5px;
@@ -39,8 +40,8 @@ export const HeaderContainer = styled.div`
 export const TitleContainer = styled.div`
   height: 60px;
   color: blue;
-  font-size: 30px;
-  padding: 10px 15px;
+  font-size: 20px;
+  padding: 15px 15px;
   font-weight: 900;
   animation-name: ${moveInLeft};
   animation-duration: 1s;
@@ -55,6 +56,7 @@ export const TylerContainer = styled(Link)`
   height: 100%;
   color: white;
   &:hover {
+    text-decoration: none;
     cursor: pointer;
     color: blue;
   }
@@ -63,6 +65,9 @@ export const TylerContainer = styled(Link)`
 export const ListContainer = styled(Link)`
   height: 100%;
   color: blue;
+  &:hover {
+    text-decoration: none;
+  }
 `;
 
 export const OptionsContainer = styled.div`
@@ -78,12 +83,14 @@ export const OptionsContainer = styled.div`
 `;
 
 export const OptionLink = styled(Link)`
+  font-size: 15px;
   padding: 10px 15px;
   cursor: pointer;
   color: white;
 
   &:hover {
     transform: translateY(-0.1rem) scale(1.03);
+    text-decoration: none;
     cursor: pointer;
     color: blue;
 

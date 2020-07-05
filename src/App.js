@@ -26,6 +26,8 @@ class App extends React.Component {
     const { setUnassignedGigs, setMyGigs } = this.props;
 
     const getMyGigs = () => {
+      const token = window.sessionStorage.getItem('token');
+      const { setMyGigs } = this.props;
       if (token) {
         fetch(`http://192.168.99.100:3000/gigs/false/${this.props.currentUser.id}`, {
           method: 'get',
@@ -36,8 +38,8 @@ class App extends React.Component {
         })
         .then(resp => resp.json())
         .then(gigs => {
-            if (gigs && gigs.gignumber) {
-          setMyGigs(gigs);
+            if (gigs[0].gignumber) {
+              setMyGigs(gigs);
             }
         })
       }
@@ -65,7 +67,6 @@ class App extends React.Component {
             .then(user => {
               if (user && user.email) {
                 setCurrentUser(user);
-                console.log(this.props.currentUser.id);
                 getMyGigs();
               }
             })

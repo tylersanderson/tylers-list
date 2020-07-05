@@ -12,8 +12,16 @@ import { setUnassignedGigs, setMyGigs } from '../../redux/gigs/gigs.actions';
 
 import {
   GigDetailsContainer,
+  GigCard,
+  ModalClose,
+  CardImage,
+  CardPay,
+  CardTitle,
+  CardNotes,
+  CardStreet,
+  GigPoster,
   SignInTitle,
-  ButtonsBarContainer
+  ButtonsContainer
 } from './gig-details.styles';
 
 class GigDetails extends React.Component {
@@ -25,89 +33,12 @@ class GigDetails extends React.Component {
       password: ''
     };
   }
-
-  saveAuthTokenInSession = (token) => {
-    window.sessionStorage.setItem('token', token)
-  }
-
-  getMyGigs = (userId) => {
+ 
+  componentDidMount() {
     const token = window.sessionStorage.getItem('token');
-    const { setMyGigs } = this.props;
-    if (token) {
-      fetch(`http://192.168.99.100:3000/gigs/false/${userId}`, {
-        method: 'get',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': token
-        }
-      })
-      .then(resp => resp.json())
-      .then(gigs => {
-          if (gigs[0].gignumber) {
-            setMyGigs(gigs);
-          }
-      })
-    }
-  }
-
-  handleSubmit = async event => {
-    event.preventDefault();
-    const { email, password } = this.state;
-    const { history } = this.props;
-    
-    
-    try {
-      let signin = await fetch('http://192.168.99.100:3000/signin', {
-        method: 'post',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          email: email,
-          password: password
-        })
-      })
-      let data = await signin.json()
-      console.log(data)
-      // const saveToken = data => {
-      if (data.userId && data.success === 'true') {
-        this.saveAuthTokenInSession(data.token);
-      };
-
-      const token = window.sessionStorage.getItem('token');
-      const { setCurrentUser } = this.props;
-      const { setUnassignedGigs } = this.props;
-
-      if (token) {
-        await fetch('http://192.168.99.100:3000/signin', {
-          method: 'post',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': token
-          }
-        })
-        .then(resp => resp.json())
-        .then(data => {
-          if (data && data.id) {
-            fetch(`http://192.168.99.100:3000/profile/${data.id}`, {
-              method: 'get',
-              headers: {
-              'Content-Type': 'application/json',
-              'Authorization': token
-              }
-            })
-              .then(resp => resp.json())
-              .then(user => {
-                if (user && user.email) {
-                  setCurrentUser(user);
-                  console.log(user.id);
-                  this.getMyGigs(user.id);
-                }
-              })
-          }
-        })
-      }
-
+    const { gigpostedby } = this.props;
       if (true) {
-        fetch('http://192.168.99.100:3000/gigsunassigned', {
+        fetch(`http://192.168.99.100:3000/profile/name/${gigpostedby}`, {
           method: 'get',
           headers: {
             'Content-Type': 'application/json',
@@ -115,55 +46,37 @@ class GigDetails extends React.Component {
           }
         })
         .then(resp => resp.json())
-        .then(gigs => {
-            if (true) {
-          setUnassignedGigs(gigs);
-            }
+          .then(gigposter => {
+              if (gigposter.name) {
+                this.setState({gigPosterName: gigposter.name})
+              }
         })
       }
-        history.push('/');
-      } catch (err) {
-        console.log(err);
-      };
-  }
-
-
-  handleChange = event => {
-    const { value, name } = event.target;
-
-    this.setState({ [name]: value });
-  };
+   }
 
     render() {
       return (
-      <div>
         <GigDetailsContainer>
-          <SignInTitle>I already have an account</SignInTitle>
-          <span>Sign in with your email and password</span>
-
-          <form onSubmit={this.handleSubmit}>
-            <FormInput
-              name='email'
-              type='email'
-              handleChange={this.handleChange}
-              value={this.state.email}
-              label='email'
-              required
-            />
-            <FormInput
-              name='password'
-              type='password'
-              value={this.state.password}
-              handleChange={this.handleChange}
-              label='password'
-              required
-            />
-            <ButtonsBarContainer>
-              <CustomButton type='submit'> Sign in </CustomButton>
-            </ButtonsBarContainer>
-          </form>
+          <GigCard>
+            <CardImage>
+              <img className='image' alt='gigimage' src={`${this.props.gigimage}`} />
+            </CardImage>
+            <div>
+              <CardTitle>{this.props.gigname}</CardTitle>
+              <CardNotes>{this.props.gignotes}</CardNotes>
+              <CardPay>${this.props.gigpay}</CardPay>
+              <CardStreet>{this.props.street}
+              <br></br>
+              {this.props.city}, {this.props.stateabv} {this.props.zipcode}
+              </CardStreet>
+              <GigPoster>Gig Posted By: {this.state.gigPosterName}</GigPoster>
+            </div>
+            <ButtonsContainer>
+              <CustomButton>Take Gig</CustomButton>
+            </ButtonsContainer>
+            <ModalClose onClick={this.props.toggleGigModal}>&times;</ModalClose>
+          </GigCard>
         </GigDetailsContainer>
-      </div>
     );
   }
 }

@@ -10,7 +10,7 @@ const moveInBottom = keyframes`
   `;
 
 export const SignInContainer = styled.div`
-  width: 380px;
+  width: 350px;
   display: flex;
   flex-direction: column;
   animation-name: ${moveInBottom};
