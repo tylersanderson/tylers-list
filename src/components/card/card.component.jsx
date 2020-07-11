@@ -18,7 +18,7 @@ class Card extends React.Component {
 		}
   }
   
-  toggleGigModal =() => {
+  toggleGigModal = () => {
     this.setState(prevState => ({
       ...prevState,
       isGigModalOpen: !prevState.isGigModalOpen

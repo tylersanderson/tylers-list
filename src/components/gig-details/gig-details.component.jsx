@@ -27,11 +27,38 @@ import {
 class GigDetails extends React.Component {
   constructor(props) {
     super(props);
+    this.handleTakeGigClick = this.handleTakeGigClick.bind(this);
+    this.handleCompleteGigClick = this.handleCompleteGigClick.bind(this);
 
     this.state = {
-      email: '',
-      password: ''
+  
     };
+  }
+
+  handleTakeGigClick() {
+    const token = window.sessionStorage.getItem('token');
+    const { gignumber } = this.props;
+    fetch(`http://192.168.99.100:3000/gigs/gigreassign/${gignumber}/${this.props.currentUser.id}`, {
+          method: 'put',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          }
+    })
+    this.props.toggleGigModal();
+  }
+
+  handleCompleteGigClick() {
+    const token = window.sessionStorage.getItem('token');
+    const { gignumber } = this.props;
+    fetch(`http://192.168.99.100:3000/gigs/gigcomplete/${gignumber}`, {
+          method: 'put',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          }
+    })
+    this.props.toggleGigModal();
   }
  
   componentDidMount() {
@@ -55,6 +82,13 @@ class GigDetails extends React.Component {
    }
 
     render() {
+      let gigModalButton;
+      if (this.props.gigassignedto == 0) {
+        gigModalButton = <CustomButton onClick={this.handleTakeGigClick}>Take Gig</CustomButton>
+      } else {
+        gigModalButton = <CustomButton onClick={this.handleCompleteGigClick}>Complete Gig</CustomButton>
+      }
+
       return (
         <GigDetailsContainer>
           <GigCard>
@@ -72,7 +106,7 @@ class GigDetails extends React.Component {
               <GigPoster>Gig Posted By: {this.state.gigPosterName}</GigPoster>
             </div>
             <ButtonsContainer>
-              <CustomButton>Take Gig</CustomButton>
+              {gigModalButton}
             </ButtonsContainer>
             <ModalClose onClick={this.props.toggleGigModal}>&times;</ModalClose>
           </GigCard>
@@ -82,7 +116,7 @@ class GigDetails extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  //currentUser: selectCurrentUser
+  currentUser: selectCurrentUser
 });
 
 const mapDispatchToProps = dispatch => ({
