@@ -35,29 +35,80 @@ class GigDetails extends React.Component {
     };
   }
 
-  handleTakeGigClick() {
+  handleTakeGigClick = async event => {
     const token = window.sessionStorage.getItem('token');
     const { gignumber } = this.props;
-    fetch(`http://192.168.99.100:3000/gigs/gigreassign/${gignumber}/${this.props.currentUser.id}`, {
+    const { setUnassignedGigs, setMyGigs } = this.props;
+    await fetch(`http://192.168.99.100:3000/gigs/gigreassign/${gignumber}/${this.props.currentUser.id}`, {
           method: 'put',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': token
           }
     })
+
+    if (token) {
+      fetch('http://192.168.99.100:3000/gigsunassigned', {
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        }
+      })
+      .then(resp => resp.json())
+      .then(gigs => {
+          if (true) {
+            setUnassignedGigs(gigs);
+          }
+      })
+    }
+
+    if (token) {
+      await fetch(`http://192.168.99.100:3000/gigs/false/${this.props.currentUser.id}`, {
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        }
+      })
+      .then(resp => resp.json())
+      .then(gigs => {
+          if (gigs[0].gignumber) {
+            setMyGigs(gigs);
+          }
+      })
+    }
+
     this.props.toggleGigModal();
   }
 
-  handleCompleteGigClick() {
+  handleCompleteGigClick = async event => {
     const token = window.sessionStorage.getItem('token');
     const { gignumber } = this.props;
-    fetch(`http://192.168.99.100:3000/gigs/gigcomplete/${gignumber}`, {
+    const { setMyGigs } = this.props;
+    await fetch(`http://192.168.99.100:3000/gigs/gigcomplete/${gignumber}`, {
           method: 'put',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': token
           }
     })
+
+    if (token) {
+      fetch(`http://192.168.99.100:3000/gigs/false/${this.props.currentUser.id}`, {
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        }
+      })
+      .then(resp => resp.json())
+      .then(gigs => {
+          if (gigs[0].gignumber) {
+            setMyGigs(gigs);
+          }
+      })
+    }
     this.props.toggleGigModal();
   }
  
