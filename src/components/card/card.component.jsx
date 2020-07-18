@@ -31,7 +31,7 @@ class Card extends React.Component {
       <div>
         <CardContainer onClick={this.toggleGigModal}>
           <CardImage>
-            <img className='image' alt='robots' src={`${this.props.gigimage}`} />
+            <img className='image' alt='gig-image' src={`${this.props.gigimage}`} />
           </CardImage>
           <div>
             <CardTitle>{this.props.gigname}</CardTitle>

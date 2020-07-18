@@ -88,7 +88,7 @@ class Register extends React.Component {
       <RegisterContainer>
         <RegisterTitle>I do not have a account</RegisterTitle>
         <span>Sign up with your email and password</span>
-        <form className='sign-up-form' onSubmit={this.handleSubmit}>
+        <form className='register-form' onSubmit={this.handleSubmit}>
           <FormInput
             type='text'
             name='displayName'
