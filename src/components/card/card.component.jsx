@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from '../Modal/Model'
 import GigDetails from '../gig-details/gig-details.component';
+import noImage from './noimage.jpg';
 
 import {
   CardContainer,
@@ -27,11 +28,12 @@ class Card extends React.Component {
   
   render() {
     const {isGigModalOpen} = this.state;
+    const gigImage = this.props.gigimage || noImage
     return(
       <div>
         <CardContainer onClick={this.toggleGigModal}>
           <CardImage>
-            <img className='image' alt='gig-image' src={`${this.props.gigimage}`} />
+            <img className='image' alt='gig-image' src={`${gigImage}`} />
           </CardImage>
           <div>
             <CardTitle>{this.props.gigname}</CardTitle>

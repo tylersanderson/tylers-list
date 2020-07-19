@@ -1,35 +1,35 @@
 import React from 'react';
 
-import CardList from '../../components/cardlist/cardlist.component'
-
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
+import MyGigsTaken from '../../components/my-gigs-taken/my-gigs-taken.component.jsx';
+import MyGigsPosted from '../../components/my-gigs-posted/my-gigs-posted.component.jsx';
+
 import { MyGigsContainer } from './my-gigs.styles';
 
-import { setMyGigs } from '../../redux/gigs/gigs.actions';
+import { setMyGigs, togglePostedGigsHidden } from '../../redux/gigs/gigs.actions';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
-import { selectMyGigs } from '../../redux/gigs/gigs.selectors';
+import { selectMyGigs, selectPostedGigsHidden } from '../../redux/gigs/gigs.selectors';
 
-const MyGigsPage = ({myGigs}) => (
+const MyGigsPage = ({postedGigsHidden}) => (
   <MyGigsContainer>
-    { 
-      myGigs.length
-      ? <CardList
-          gigsArray={myGigs}
-        />
-      : <div>You need to get some gigs</div>
+    { !postedGigsHidden 
+      ? <MyGigsTaken/>
+      : <MyGigsPosted/>
     }
   </MyGigsContainer>
 );
 
 const mapStateToProps = createStructuredSelector({
   myGigs: selectMyGigs,
-  currentUser: selectCurrentUser
+  currentUser: selectCurrentUser,
+  postedGigsHidden: selectPostedGigsHidden
 });
 
 const mapDispatchToProps = dispatch => ({
-  setMyGigs: gigs => dispatch(setMyGigs(gigs))
+  setMyGigs: gigs => dispatch(setMyGigs(gigs)),
+  togglePostedGigsHidden: gigs => dispatch(togglePostedGigsHidden())
 });
 
 export default connect(

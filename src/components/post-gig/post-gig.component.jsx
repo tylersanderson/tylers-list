@@ -9,7 +9,7 @@ import CustomButton from '../custom-button/custom-button.component';
 
 import { setCurrentUser } from '../../redux/user/user.actions';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
-import { setUnassignedGigs } from '../../redux/gigs/gigs.actions';
+import { setUnassignedGigs, setMyPostedGigs } from '../../redux/gigs/gigs.actions';
 
 import { PostGigContainer, PostGigTitle } from './post-gig.styles';
 
@@ -62,6 +62,22 @@ class PostGig extends React.Component {
     }
 
     if (true) {
+      await fetch(`http://192.168.99.100:3000/gigs/postedby/false/${this.props.currentUser.id}`, {
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        }
+      })
+      .then(resp => resp.json())
+      .then(gigs => {
+          if (true) {
+            setMyPostedGigs(gigs);
+          }
+      })
+    }
+
+    if (true) {
       fetch('http://192.168.99.100:3000/gigsunassigned', {
         method: 'get',
         headers: {
@@ -72,7 +88,7 @@ class PostGig extends React.Component {
       .then(resp => resp.json())
       .then(gigs => {
           if (true) {
-        setUnassignedGigs(gigs);
+            setUnassignedGigs(gigs);
           }
       })
     }
@@ -178,6 +194,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user)),
   setUnassignedGigs: gigs => dispatch(setUnassignedGigs(gigs)),
+  setMyPostedGigs: gigs => dispatch(setMyPostedGigs(gigs))
 });
 
 export default withRouter(connect(

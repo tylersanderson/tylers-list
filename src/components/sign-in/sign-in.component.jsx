@@ -121,7 +121,7 @@ class SignIn extends React.Component {
             }
         })
       }
-        history.push('/');
+        //history.push('/');
       } catch (err) {
         console.log(err);
       };

@@ -57,7 +57,8 @@ export const CardImage = styled.div`
   margin-right: 25px;
 
   .image {
-    max-width: 250px;
+    max-width: 70vw;
+    max-height: 50vh;
   }
 
 `;

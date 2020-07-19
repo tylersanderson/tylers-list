@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { withRouter } from 'react-router-dom';
+import noImage from '../card/noimage.jpg';
 
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
@@ -133,6 +134,7 @@ class GigDetails extends React.Component {
    }
 
     render() {
+      const gigImage = this.props.gigimage || noImage
       let gigModalButton;
       if (this.props.gigassignedto == 0) {
         gigModalButton = <CustomButton onClick={this.handleTakeGigClick}>Take Gig</CustomButton>
@@ -144,7 +146,7 @@ class GigDetails extends React.Component {
         <GigDetailsContainer>
           <GigCard>
             <CardImage>
-              <img className='image' alt='gigimage' src={`${this.props.gigimage}`} />
+              <img className='image' alt='gigimage' src={`${gigImage}`} />
             </CardImage>
             <div>
               <CardTitle>{this.props.gigname}</CardTitle>

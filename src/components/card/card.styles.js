@@ -33,6 +33,7 @@ export const CardImage = styled.div`
 
   .image {
     max-width: 250px;
+    max-height: 200px;
   }
 
 `;

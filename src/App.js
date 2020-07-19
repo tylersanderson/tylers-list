@@ -15,7 +15,7 @@ import Header from './components/header/header.component';
 
 import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
-import { setUnassignedGigs, setMyGigs } from './redux/gigs/gigs.actions';
+import { setUnassignedGigs, setMyGigs, setMyPostedGigs } from './redux/gigs/gigs.actions';
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
@@ -23,7 +23,7 @@ class App extends React.Component {
   async componentDidMount() {
     const token = window.sessionStorage.getItem('token');
     const { setCurrentUser } = this.props;
-    const { setUnassignedGigs, setMyGigs } = this.props;
+    const { setUnassignedGigs } = this.props;
 
     const getMyGigs = () => {
       const token = window.sessionStorage.getItem('token');
@@ -44,6 +44,27 @@ class App extends React.Component {
         })
       }
     }
+
+    const getMyPostedGigs = () => {
+      const token = window.sessionStorage.getItem('token');
+      const { setMyPostedGigs } = this.props;
+      if (token) {
+        fetch(`http://192.168.99.100:3000/gigs/postedby/false/${this.props.currentUser.id}`, {
+          method: 'get',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          }
+        })
+        .then(resp => resp.json())
+        .then(gigs => {
+            if (gigs[0].gignumber) {
+              setMyPostedGigs(gigs);
+            }
+        })
+      }
+    }
+
 
     try { if (token) {
       await fetch('http://192.168.99.100:3000/signin', {
@@ -68,6 +89,7 @@ class App extends React.Component {
               if (user && user.email) {
                 setCurrentUser(user);
                 getMyGigs();
+                getMyPostedGigs()
               }
             })
         }
@@ -91,6 +113,7 @@ class App extends React.Component {
           }
       })
     }
+
   }
 
   loadUser = (data) => {
@@ -161,7 +184,8 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user)),
   setUnassignedGigs: gigs => dispatch(setUnassignedGigs(gigs)),
-  setMyGigs: gigs => dispatch(setMyGigs(gigs))
+  setMyGigs: gigs => dispatch(setMyGigs(gigs)),
+  setMyPostedGigs: gigs => dispatch(setMyPostedGigs(gigs))
 });
 
 export default connect(
