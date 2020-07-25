@@ -38,6 +38,5 @@ export const MyGigsPostedTitleContainer = styled.button`
   &:hover {
     text-decoration: none;
     cursor: pointer;
-    color: blue;
   }
 `;

@@ -38,6 +38,5 @@ export const MyGigsTakenTitleContainer = styled.button`
   &:hover {
     text-decoration: none;
     cursor: pointer;
-    color: blue;
   }
 `;

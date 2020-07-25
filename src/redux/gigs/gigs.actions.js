@@ -22,4 +22,9 @@ export const clearMyGigs = gigs => ({
 
 export const togglePostedGigsHidden = () => ({
   type: GigsActionTypes.TOGGLE_POSTED_GIGS_HIDDEN
-})
+});
+
+export const setSearchAvailableGigs = gigs => ({
+  type: GigsActionTypes.SET_SEARCH_AVAILABLE_GIGS,
+  payload: gigs
+});

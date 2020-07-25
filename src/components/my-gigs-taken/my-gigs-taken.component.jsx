@@ -19,12 +19,13 @@ import { selectMyGigs } from '../../redux/gigs/gigs.selectors';
 const MyGigsTaken = ({ myGigs, togglePostedGigsHidden}) => (
   <MyGigsTakenContainer>
     <TitleContainer>
-      <MyGigsPostedTitleContainer onClick={togglePostedGigsHidden}> 
-        Gigs I Have Posted
-      </MyGigsPostedTitleContainer>
       <MyGigsTakenTitleContainer>
           Gigs I Have Taken
       </MyGigsTakenTitleContainer>
+      <MyGigsPostedTitleContainer onClick={togglePostedGigsHidden}> 
+        Gigs I Have Posted
+      </MyGigsPostedTitleContainer>
+      
     </TitleContainer>
     { 
       myGigs.length

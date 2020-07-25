@@ -14,7 +14,7 @@ import { selectMyGigs, selectPostedGigsHidden } from '../../redux/gigs/gigs.sele
 
 const MyGigsPage = ({postedGigsHidden}) => (
   <MyGigsContainer>
-    { !postedGigsHidden 
+    { postedGigsHidden 
       ? <MyGigsTaken/>
       : <MyGigsPosted/>
     }

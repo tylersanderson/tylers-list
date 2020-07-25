@@ -1,30 +1,46 @@
 import React from 'react';
 
-import CardList from '../../components/cardlist/cardlist.component'
+import CardList from '../../components/cardlist/cardlist.component';
+import Searchbox from '../../components/searchbox/searchbox.component';
 
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { HomePageContainer } from './hopepage.styles';
+import { 
+  HomePageContainer,
+  AvailableGigsTitle
+} from './hopepage.styles';
 
-import { setUnassignedGigs } from '../../redux/gigs/gigs.actions';
-import { selectUnassignedGigs } from '../../redux/gigs/gigs.selectors';
+import { setUnassignedGigs, setSearchAvailableGigs } from '../../redux/gigs/gigs.actions';
+import { selectUnassignedGigs, selectSearchAvailableGigs } from '../../redux/gigs/gigs.selectors';
 
-const HomePage = ({unassignedGigs}) => (
+const HomePage = ({unassignedGigs, setSearchAvailableGigs, searchAvailableGigs}) => {
+  
+  const updateSearch = (e) => {
+    setSearchAvailableGigs(e.target.value);
+  }
+
+  return (
   <HomePageContainer>
+    <AvailableGigsTitle>Gigs Available</AvailableGigsTitle>
+    <Searchbox searchChange={(e) => updateSearch(e)}/>
     <CardList
-      gigsArray={unassignedGigs}
+      gigsArray={unassignedGigs.filter(unassignedGigs => {
+        return unassignedGigs.concat.toLowerCase().includes(searchAvailableGigs.toLowerCase());
+      })}
     />
   </HomePageContainer>
 );
-
+}
 
 const mapStateToProps = createStructuredSelector({
-  unassignedGigs: selectUnassignedGigs
+  unassignedGigs: selectUnassignedGigs,
+  searchAvailableGigs: selectSearchAvailableGigs
 });
 
 const mapDispatchToProps = dispatch => ({
-  setUnassignedGigs: gigs => dispatch(setUnassignedGigs(gigs))
+  setUnassignedGigs: gigs => dispatch(setUnassignedGigs(gigs)),
+  setSearchAvailableGigs: gigs => dispatch(setSearchAvailableGigs(gigs))
 });
 
 export default connect(

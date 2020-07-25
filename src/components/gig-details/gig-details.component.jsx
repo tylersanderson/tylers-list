@@ -115,7 +115,7 @@ class GigDetails extends React.Component {
  
   componentDidMount() {
     const token = window.sessionStorage.getItem('token');
-    const { gigpostedby } = this.props;
+    const { gigpostedby, gigassignedto } = this.props;
       if (true) {
         fetch(`http://192.168.99.100:3000/profile/name/${gigpostedby}`, {
           method: 'get',
@@ -131,6 +131,23 @@ class GigDetails extends React.Component {
               }
         })
       }
+
+      if (true) {
+        fetch(`http://192.168.99.100:3000/profile/name/${gigassignedto}`, {
+          method: 'get',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          }
+        })
+        .then(resp => resp.json())
+          .then(gigtaker => {
+              if (gigtaker.name) {
+                this.setState({gigTakerName: gigtaker.name})
+              }
+        })
+      }
+
    }
 
     render() {
@@ -157,7 +174,11 @@ class GigDetails extends React.Component {
               {this.props.city}, {this.props.stateabv} {this.props.zipcode}
               </CardStreet>
               <GigPoster>Gig Posted By: {this.state.gigPosterName}</GigPoster>
-            </div>
+              { this.state.gigTakerName 
+              ? <GigPoster>Gig Taken By: {this.state.gigTakerName}</GigPoster>
+              : <GigPoster>Gig Not Taken Yet</GigPoster>
+              }
+              </div>
             <ButtonsContainer>
               {gigModalButton}
             </ButtonsContainer>

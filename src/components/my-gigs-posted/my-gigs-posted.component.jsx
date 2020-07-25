@@ -14,23 +14,24 @@ import {
 
 import { setMyGigs, togglePostedGigsHidden } from '../../redux/gigs/gigs.actions';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
-import { selectMyGigs } from '../../redux/gigs/gigs.selectors';
+import { selectMyPostedGigs } from '../../redux/gigs/gigs.selectors';
 
-const MyGigsPosted = ({ myGigs, togglePostedGigsHidden }) => (
+const MyGigsPosted = ({ myPostedGigs, togglePostedGigsHidden }) => (
   <MyGigsPostedContainer>
     <TitleContainer>
-      <MyGigsPostedTitleContainer>
-          Gigs I Have Posted
-      </MyGigsPostedTitleContainer>
       <MyGigsTakenTitleContainer 
         onClick={togglePostedGigsHidden}> 
         Gigs I Have Taken
       </MyGigsTakenTitleContainer>
+      <MyGigsPostedTitleContainer>
+          Gigs I Have Posted
+      </MyGigsPostedTitleContainer>
+      
     </TitleContainer>
     { 
-      myGigs.length
+      myPostedGigs.length
       ? <CardList
-          gigsArray={myGigs}
+          gigsArray={myPostedGigs}
         />
       : <div>You have no gigs</div>
     }
@@ -38,7 +39,7 @@ const MyGigsPosted = ({ myGigs, togglePostedGigsHidden }) => (
 );
 
 const mapStateToProps = createStructuredSelector({
-  myGigs: selectMyGigs,
+  myPostedGigs: selectMyPostedGigs,
   currentUser: selectCurrentUser
 });
 

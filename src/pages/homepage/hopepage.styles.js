@@ -5,3 +5,7 @@ export const HomePageContainer = styled.div`
   flex-direction: column;
   align-items: center;
 `;
+
+export const AvailableGigsTitle = styled.h2`
+  margin: 10px 0;
+`;

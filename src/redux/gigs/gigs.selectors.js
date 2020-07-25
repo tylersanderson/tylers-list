@@ -21,3 +21,8 @@ export const selectPostedGigsHidden = createSelector(
   [selectGigs],
   gigs => gigs.postedGigsHidden
 );
+
+export const selectSearchAvailableGigs = createSelector(
+  [selectGigs],
+  gigs => gigs.searchAvailableGigs
+);

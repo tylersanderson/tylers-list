@@ -1,10 +1,12 @@
 import { GigsActionTypes } from './gigs.types';
+import {concatUnassignedGigs } from './gigs.utils';
 
 const INITIAL_STATE = {
   unassignedGigs: [],
   myGigs: [],
   myPostedGigs: [],
-  postedGigsHidden: true
+  postedGigsHidden: true,
+  searchAvailableGigs: ''
 };
 
 const gigsReducer = (state = INITIAL_STATE, action) => {
@@ -12,7 +14,7 @@ const gigsReducer = (state = INITIAL_STATE, action) => {
     case GigsActionTypes.SET_UNASSIGNED_GIGS:
       return {
         ...state,
-        unassignedGigs: action.payload
+        unassignedGigs: concatUnassignedGigs(action.payload)
       };
     case GigsActionTypes.SET_MY_GIGS:
       return {
@@ -33,6 +35,11 @@ const gigsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         postedGigsHidden: !state.postedGigsHidden
+      };
+    case GigsActionTypes.SET_SEARCH_AVAILABLE_GIGS:
+      return {
+        ...state,
+        searchAvailableGigs: action.payload
       };
     default:
       return state;
