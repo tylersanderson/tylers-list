@@ -1,5 +1,5 @@
 import { GigsActionTypes } from './gigs.types';
-import {concatUnassignedGigs } from './gigs.utils';
+import {concatUnassignedGigs, setMyGigs } from './gigs.utils';
 
 const INITIAL_STATE = {
   unassignedGigs: [],
@@ -19,7 +19,7 @@ const gigsReducer = (state = INITIAL_STATE, action) => {
     case GigsActionTypes.SET_MY_GIGS:
       return {
         ...state,
-        myGigs: action.payload
+        myGigs: setMyGigs(action.payload)
       };
     case GigsActionTypes.SET_MY_POSTED_GIGS:
       return {

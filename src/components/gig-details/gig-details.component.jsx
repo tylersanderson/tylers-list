@@ -9,7 +9,7 @@ import CustomButton from '../custom-button/custom-button.component';
 
 import { setCurrentUser } from '../../redux/user/user.actions';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
-import { setUnassignedGigs, setMyGigs } from '../../redux/gigs/gigs.actions';
+import { setUnassignedGigs, setMyGigs, setMyPostedGigs } from '../../redux/gigs/gigs.actions';
 
 import {
   GigDetailsContainer,
@@ -40,6 +40,7 @@ class GigDetails extends React.Component {
     const token = window.sessionStorage.getItem('token');
     const { gignumber } = this.props;
     const { setUnassignedGigs, setMyGigs } = this.props;
+
     await fetch(`http://192.168.99.100:3000/gigs/gigreassign/${gignumber}/${this.props.currentUser.id}`, {
           method: 'put',
           headers: {
@@ -87,6 +88,26 @@ class GigDetails extends React.Component {
     const token = window.sessionStorage.getItem('token');
     const { gignumber } = this.props;
     const { setMyGigs } = this.props;
+    const getMyPostedGigs = () => {
+      const token = window.sessionStorage.getItem('token');
+      const { setMyPostedGigs } = this.props;
+      if (token) {
+        fetch(`http://192.168.99.100:3000/gigs/postedby/false/${this.props.currentUser.id}`, {
+          method: 'get',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          }
+        })
+        .then(resp => resp.json())
+        .then(gigs => {
+            if (gigs[0].gignumber) {
+              setMyPostedGigs(gigs);
+            }
+        })
+      }
+    }
+
     await fetch(`http://192.168.99.100:3000/gigs/gigcomplete/${gignumber}`, {
           method: 'put',
           headers: {
@@ -108,7 +129,11 @@ class GigDetails extends React.Component {
           if (gigs[0].gignumber) {
             setMyGigs(gigs);
           }
+          else {
+            setMyGigs([])
+          }
       })
+      getMyPostedGigs()
     }
     this.props.toggleGigModal();
   }
@@ -196,7 +221,8 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user)),
   setUnassignedGigs: gigs => dispatch(setUnassignedGigs(gigs)),
-  setMyGigs: gigs => dispatch(setMyGigs(gigs))
+  setMyGigs: gigs => dispatch(setMyGigs(gigs)),
+  setMyPostedGigs: gigs => dispatch(setMyPostedGigs(gigs))
 });
 
 export default withRouter(connect(

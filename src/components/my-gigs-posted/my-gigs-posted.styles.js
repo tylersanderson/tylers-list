@@ -40,3 +40,15 @@ export const MyGigsTakenTitleContainer = styled.button`
     cursor: pointer;
   }
 `;
+
+export const NoGigsContainer = styled.h2`
+  height: 50px;
+  text-align: center;
+  padding: 50px 10px;
+  color: black;
+  border-radius: 100px;
+  &:hover {
+    text-decoration: none;
+
+  }
+`;

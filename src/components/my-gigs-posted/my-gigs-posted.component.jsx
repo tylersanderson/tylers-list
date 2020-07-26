@@ -9,7 +9,8 @@ import {
   MyGigsPostedContainer, 
   TitleContainer,
   MyGigsPostedTitleContainer,
-  MyGigsTakenTitleContainer 
+  MyGigsTakenTitleContainer,
+  NoGigsContainer
 } from './my-gigs-posted.styles';
 
 import { setMyGigs, togglePostedGigsHidden } from '../../redux/gigs/gigs.actions';
@@ -33,7 +34,7 @@ const MyGigsPosted = ({ myPostedGigs, togglePostedGigsHidden }) => (
       ? <CardList
           gigsArray={myPostedGigs}
         />
-      : <div>You have no gigs</div>
+      : <NoGigsContainer>You have not posted any gigs</NoGigsContainer>
     }
   </MyGigsPostedContainer>
 );

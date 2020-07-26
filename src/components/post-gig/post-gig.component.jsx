@@ -40,6 +40,44 @@ class PostGig extends React.Component {
     const token = window.sessionStorage.getItem('token');
     const { setUnassignedGigs } = this.props;
 
+    const getMyPostedGigs = () => {
+      const token = window.sessionStorage.getItem('token');
+      const { setMyPostedGigs } = this.props;
+      if (token) {
+        fetch(`http://192.168.99.100:3000/gigs/postedby/false/${this.props.currentUser.id}`, {
+          method: 'get',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          }
+        })
+        .then(resp => resp.json())
+        .then(gigs => {
+            if (gigs[0].gignumber) {
+              setMyPostedGigs(gigs);
+            }
+        })
+      }
+    }
+
+    const getUnassignedGigs = () => {
+      if (true) {
+      fetch('http://192.168.99.100:3000/gigsunassigned', {
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        }
+      })
+      .then(resp => resp.json())
+      .then(gigs => {
+          if (true) {
+            setUnassignedGigs(gigs);
+          }
+      })
+      }
+    }
+
     if (token) {
       await fetch('http://192.168.99.100:3000/gigs', {
         method: 'post',
@@ -59,40 +97,11 @@ class PostGig extends React.Component {
           gigpostedby: this.props.currentUser.id
         })
       })
+      getMyPostedGigs();
+      getUnassignedGigs();
     }
 
-    if (true) {
-      await fetch(`http://192.168.99.100:3000/gigs/postedby/false/${this.props.currentUser.id}`, {
-        method: 'get',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': token
-        }
-      })
-      .then(resp => resp.json())
-      .then(gigs => {
-          if (true) {
-            setMyPostedGigs(gigs);
-          }
-      })
-    }
-
-    if (true) {
-      fetch('http://192.168.99.100:3000/gigsunassigned', {
-        method: 'get',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': token
-        }
-      })
-      .then(resp => resp.json())
-      .then(gigs => {
-          if (true) {
-            setUnassignedGigs(gigs);
-          }
-      })
-    }
-      history.push('/');
+    history.push('/');
   };
 
   handleChange = event => {
