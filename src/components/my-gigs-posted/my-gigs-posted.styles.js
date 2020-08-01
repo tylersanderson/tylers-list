@@ -21,6 +21,7 @@ export const TitleContainer = styled.div`
 export const MyGigsPostedTitleContainer = styled.button`
   height: 50px;
   padding: 10px 10px;
+  border: none;
   color: white;
   background-color: black;
   border-radius: 100px;

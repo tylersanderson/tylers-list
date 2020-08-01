@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -12,6 +12,8 @@ import MyGigsPage from './pages/my-gigs/my-gigs.component';
 import PostGigPage from './pages/post-gig/post-gig.component';
 
 import Header from './components/header/header.component';
+import Spinner from "./components/spinner/spinner.component";
+import ErrorBoundary from "./components/error-boundary/error-boundary.component";
 
 import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
@@ -29,7 +31,7 @@ class App extends React.Component {
       const token = window.sessionStorage.getItem('token');
       const { setMyGigs } = this.props;
       if (token) {
-        fetch(`http://192.168.99.100:3000/gigs/false/${this.props.currentUser.id}`, {
+        fetch(`${process.env.REACT_APP_API_URL}/gigs/false/${this.props.currentUser.id}`, {
           method: 'get',
           headers: {
             'Content-Type': 'application/json',
@@ -49,7 +51,7 @@ class App extends React.Component {
       const token = window.sessionStorage.getItem('token');
       const { setMyPostedGigs } = this.props;
       if (token) {
-        fetch(`http://192.168.99.100:3000/gigs/postedby/false/${this.props.currentUser.id}`, {
+        fetch(`${process.env.REACT_APP_API_URL}/gigs/all/postedby/${this.props.currentUser.id}`, {
           method: 'get',
           headers: {
             'Content-Type': 'application/json',
@@ -67,7 +69,7 @@ class App extends React.Component {
 
 
     try { if (token) {
-      await fetch('http://192.168.99.100:3000/signin', {
+      await fetch(`${process.env.REACT_APP_API_URL}/signin`, {
         method: 'post',
         headers: {
           'Content-Type': 'application/json',
@@ -77,7 +79,7 @@ class App extends React.Component {
       .then(resp => resp.json())
       .then(data => {
         if (data && data.id) {
-          fetch(`http://192.168.99.100:3000/profile/${data.id}`, {
+          fetch(`${process.env.REACT_APP_API_URL}/profile/${data.id}`, {
             method: 'get',
             headers: {
             'Content-Type': 'application/json',
@@ -99,7 +101,7 @@ class App extends React.Component {
     }
 
     if (true) {
-      fetch('http://192.168.99.100:3000/gigsunassigned', {
+      fetch(`${process.env.REACT_APP_API_URL}/gigsunassigned`, {
         method: 'get',
         headers: {
           'Content-Type': 'application/json',
@@ -112,6 +114,7 @@ class App extends React.Component {
             setUnassignedGigs(gigs);
           }
       })
+
     }
 
   }
@@ -136,41 +139,45 @@ class App extends React.Component {
       <div>
         <Header />
         <Switch>
-          <Route exact path='/' component={HomePage} />
-          <Route path='/register' component={RegisterPage} />
-          <Route
-            exact
-            path='/signin'
-            render={() =>
-              this.props.currentUser.id ? (
-                <Redirect to='/' />
-              ) : (
-                <SignInPage />
-              )
-            }
-          />
-          <Route
-            exact
-            path='/mygigs'
-            render={() =>
-              this.props.currentUser.id ? (
-                <MyGigsPage />
-              ) : (
-                <Redirect to='/signin' />
-              )
-            }
-          />
-          <Route
-            exact
-            path='/postgig'
-            render={() =>
-              this.props.currentUser.id ? (
-                <PostGigPage />
-              ) : (
-                <Redirect to='/signin' />
-              )
-            }
-          />
+          <ErrorBoundary>
+            <Suspense fallback={<Spinner />}>
+              <Route exact path='/' component={HomePage} />
+              <Route path='/register' component={RegisterPage} />
+              <Route
+                exact
+                path='/signin'
+                render={() =>
+                  this.props.currentUser.id ? (
+                    <Redirect to='/' />
+                  ) : (
+                    <SignInPage />
+                  )
+                }
+              />
+              <Route
+                exact
+                path='/mygigs'
+                render={() =>
+                  this.props.currentUser.id ? (
+                    <MyGigsPage />
+                  ) : (
+                    <Redirect to='/signin' />
+                  )
+                }
+              />
+              <Route
+                exact
+                path='/postgig'
+                render={() =>
+                  this.props.currentUser.id ? (
+                    <PostGigPage />
+                  ) : (
+                    <Redirect to='/signin' />
+                  )
+                }
+              />
+            </Suspense>
+          </ErrorBoundary>
         </Switch>
       </div>
     );

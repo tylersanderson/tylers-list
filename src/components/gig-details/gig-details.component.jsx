@@ -4,7 +4,6 @@ import { createStructuredSelector } from 'reselect';
 import { withRouter } from 'react-router-dom';
 import noImage from '../card/noimage.jpg';
 
-import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 
 import { setCurrentUser } from '../../redux/user/user.actions';
@@ -21,7 +20,6 @@ import {
   CardNotes,
   CardStreet,
   GigPoster,
-  SignInTitle,
   ButtonsContainer
 } from './gig-details.styles';
 
@@ -40,59 +38,11 @@ class GigDetails extends React.Component {
     const token = window.sessionStorage.getItem('token');
     const { gignumber } = this.props;
     const { setUnassignedGigs, setMyGigs } = this.props;
-
-    await fetch(`http://192.168.99.100:3000/gigs/gigreassign/${gignumber}/${this.props.currentUser.id}`, {
-          method: 'put',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': token
-          }
-    })
-
-    if (token) {
-      fetch('http://192.168.99.100:3000/gigsunassigned', {
-        method: 'get',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': token
-        }
-      })
-      .then(resp => resp.json())
-      .then(gigs => {
-          if (true) {
-            setUnassignedGigs(gigs);
-          }
-      })
-    }
-
-    if (token) {
-      await fetch(`http://192.168.99.100:3000/gigs/false/${this.props.currentUser.id}`, {
-        method: 'get',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': token
-        }
-      })
-      .then(resp => resp.json())
-      .then(gigs => {
-          if (gigs[0].gignumber) {
-            setMyGigs(gigs);
-          }
-      })
-    }
-
-    this.props.toggleGigModal();
-  }
-
-  handleCompleteGigClick = async event => {
-    const token = window.sessionStorage.getItem('token');
-    const { gignumber } = this.props;
-    const { setMyGigs } = this.props;
     const getMyPostedGigs = () => {
       const token = window.sessionStorage.getItem('token');
       const { setMyPostedGigs } = this.props;
       if (token) {
-        fetch(`http://192.168.99.100:3000/gigs/postedby/false/${this.props.currentUser.id}`, {
+        fetch(`${process.env.REACT_APP_API_URL}/gigs/all/postedby/${this.props.currentUser.id}`, {
           method: 'get',
           headers: {
             'Content-Type': 'application/json',
@@ -108,7 +58,7 @@ class GigDetails extends React.Component {
       }
     }
 
-    await fetch(`http://192.168.99.100:3000/gigs/gigcomplete/${gignumber}`, {
+    await fetch(`${process.env.REACT_APP_API_URL}/gigs/gigreassign/${gignumber}/${this.props.currentUser.id}`, {
           method: 'put',
           headers: {
             'Content-Type': 'application/json',
@@ -117,7 +67,75 @@ class GigDetails extends React.Component {
     })
 
     if (token) {
-      fetch(`http://192.168.99.100:3000/gigs/false/${this.props.currentUser.id}`, {
+      fetch(`${process.env.REACT_APP_API_URL}/gigsunassigned`, {
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        }
+      })
+      .then(resp => resp.json())
+      .then(gigs => {
+          if (true) {
+            setUnassignedGigs(gigs);
+          }
+      })
+    }
+
+    if (token) {
+      await fetch(`${process.env.REACT_APP_API_URL}/gigs/false/${this.props.currentUser.id}`, {
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        }
+      })
+      .then(resp => resp.json())
+      .then(gigs => {
+          if (gigs[0].gignumber) {
+            setMyGigs(gigs);
+          }
+      })
+      getMyPostedGigs();
+    }
+
+    this.props.toggleGigModal();
+  }
+
+  handleCompleteGigClick = async event => {
+    const token = window.sessionStorage.getItem('token');
+    const { gignumber } = this.props;
+    const { setMyGigs } = this.props;
+    const getMyPostedGigs = () => {
+      const token = window.sessionStorage.getItem('token');
+      const { setMyPostedGigs } = this.props;
+      if (token) {
+        fetch(`${process.env.REACT_APP_API_URL}/gigs/all/postedby/${this.props.currentUser.id}`, {
+          method: 'get',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          }
+        })
+        .then(resp => resp.json())
+        .then(gigs => {
+            if (gigs[0].gignumber) {
+              setMyPostedGigs(gigs);
+            }
+        })
+      }
+    }
+
+    await fetch(`${process.env.REACT_APP_API_URL}/gigs/gigcomplete/${gignumber}`, {
+          method: 'put',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          }
+    })
+
+    if (token) {
+      fetch(`${process.env.REACT_APP_API_URL}/gigs/false/${this.props.currentUser.id}`, {
         method: 'get',
         headers: {
           'Content-Type': 'application/json',
@@ -142,7 +160,7 @@ class GigDetails extends React.Component {
     const token = window.sessionStorage.getItem('token');
     const { gigpostedby, gigassignedto } = this.props;
       if (true) {
-        fetch(`http://192.168.99.100:3000/profile/name/${gigpostedby}`, {
+        fetch(`${process.env.REACT_APP_API_URL}/profile/name/${gigpostedby}`, {
           method: 'get',
           headers: {
             'Content-Type': 'application/json',
@@ -158,7 +176,7 @@ class GigDetails extends React.Component {
       }
 
       if (true) {
-        fetch(`http://192.168.99.100:3000/profile/name/${gigassignedto}`, {
+        fetch(`${process.env.REACT_APP_API_URL}/profile/name/${gigassignedto}`, {
           method: 'get',
           headers: {
             'Content-Type': 'application/json',
@@ -180,6 +198,8 @@ class GigDetails extends React.Component {
       let gigModalButton;
       if (this.props.gigassignedto == 0) {
         gigModalButton = <CustomButton onClick={this.handleTakeGigClick}>Take Gig</CustomButton>
+      } else if (this.props.gigassignedto != 0 && this.props.isgigcomplete == true) {
+        gigModalButton = <div>Gig Completed</div>
       } else {
         gigModalButton = <CustomButton onClick={this.handleCompleteGigClick}>Complete Gig</CustomButton>
       }

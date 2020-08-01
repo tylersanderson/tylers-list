@@ -44,7 +44,7 @@ class PostGig extends React.Component {
       const token = window.sessionStorage.getItem('token');
       const { setMyPostedGigs } = this.props;
       if (token) {
-        fetch(`http://192.168.99.100:3000/gigs/postedby/false/${this.props.currentUser.id}`, {
+        fetch(`${process.env.REACT_APP_API_URL}/gigs/all/postedby/${this.props.currentUser.id}`, {
           method: 'get',
           headers: {
             'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ class PostGig extends React.Component {
 
     const getUnassignedGigs = () => {
       if (true) {
-      fetch('http://192.168.99.100:3000/gigsunassigned', {
+      fetch(`${process.env.REACT_APP_API_URL}/gigsunassigned`, {
         method: 'get',
         headers: {
           'Content-Type': 'application/json',
@@ -79,7 +79,7 @@ class PostGig extends React.Component {
     }
 
     if (token) {
-      await fetch('http://192.168.99.100:3000/gigs', {
+      await fetch(`${process.env.REACT_APP_API_URL}/gigs`, {
         method: 'post',
         headers: {
           'Content-Type': 'application/json',

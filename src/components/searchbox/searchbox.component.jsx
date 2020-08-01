@@ -1,15 +1,16 @@
 import React from 'react';
 
+import { SearchboxContainer, SearchboxInput } from './searchbox.styles';
+
 const SearchBox = ({ searchfield, searchChange }) => {
 	return (
-		<div className='pa2'>
-			<input 
-				className='pa3 ba b--green bg-lightest-blue'
+		<SearchboxContainer>
+			<SearchboxInput
 				type='search' 
 				placeholder='search gigs'
 				onChange={searchChange}
 			/>
-		</div>
+		</SearchboxContainer>
 	);
 }
 

@@ -1,13 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 import { withRouter } from 'react-router-dom';
 
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 
 import { setCurrentUser } from '../../redux/user/user.actions';
-import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { setUnassignedGigs, setMyGigs } from '../../redux/gigs/gigs.actions';
 
 import {
@@ -34,7 +32,7 @@ class SignIn extends React.Component {
     const token = window.sessionStorage.getItem('token');
     const { setMyGigs } = this.props;
     if (token) {
-      fetch(`http://192.168.99.100:3000/gigs/false/${userId}`, {
+      fetch(`${process.env.REACT_APP_API_URL}/gigs/false/${userId}`, {
         method: 'get',
         headers: {
           'Content-Type': 'application/json',
@@ -53,11 +51,9 @@ class SignIn extends React.Component {
   handleSubmit = async event => {
     event.preventDefault();
     const { email, password } = this.state;
-    const { history } = this.props;
-    
     
     try {
-      let signin = await fetch('http://192.168.99.100:3000/signin', {
+      let signin = await fetch(`${process.env.REACT_APP_API_URL}/signin`, {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -66,8 +62,7 @@ class SignIn extends React.Component {
         })
       })
       let data = await signin.json()
-      console.log(data)
-      // const saveToken = data => {
+      console.log(data);
       if (data.userId && data.success === 'true') {
         this.saveAuthTokenInSession(data.token);
       };
@@ -77,7 +72,7 @@ class SignIn extends React.Component {
       const { setUnassignedGigs } = this.props;
 
       if (token) {
-        await fetch('http://192.168.99.100:3000/signin', {
+        await fetch(`${process.env.REACT_APP_API_URL}/signin`, {
           method: 'post',
           headers: {
             'Content-Type': 'application/json',
@@ -87,7 +82,7 @@ class SignIn extends React.Component {
         .then(resp => resp.json())
         .then(data => {
           if (data && data.id) {
-            fetch(`http://192.168.99.100:3000/profile/${data.id}`, {
+            fetch(`${process.env.REACT_APP_API_URL}/profile/${data.id}`, {
               method: 'get',
               headers: {
               'Content-Type': 'application/json',
@@ -98,7 +93,6 @@ class SignIn extends React.Component {
               .then(user => {
                 if (user && user.email) {
                   setCurrentUser(user);
-                  console.log(user.id);
                   this.getMyGigs(user.id);
                 }
               })
@@ -107,7 +101,7 @@ class SignIn extends React.Component {
       }
 
       if (true) {
-        fetch('http://192.168.99.100:3000/gigsunassigned', {
+        fetch(`${process.env.REACT_APP_API_URL}/gigsunassigned`, {
           method: 'get',
           headers: {
             'Content-Type': 'application/json',
@@ -121,10 +115,9 @@ class SignIn extends React.Component {
             }
         })
       }
-        //history.push('/');
-      } catch (err) {
-        console.log(err);
-      };
+    } catch (err) {
+      console.log(err);
+    };
   }
 
 
@@ -166,10 +159,6 @@ class SignIn extends React.Component {
   }
 }
 
-const mapStateToProps = createStructuredSelector({
-  //currentUser: selectCurrentUser
-});
-
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user)),
   setUnassignedGigs: gigs => dispatch(setUnassignedGigs(gigs)),
@@ -177,6 +166,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default withRouter(connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(SignIn));

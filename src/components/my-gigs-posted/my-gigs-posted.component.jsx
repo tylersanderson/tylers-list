@@ -17,6 +17,19 @@ import { setMyGigs, togglePostedGigsHidden } from '../../redux/gigs/gigs.actions
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { selectMyPostedGigs } from '../../redux/gigs/gigs.selectors';
 
+function compare(a, b) {
+  const gigNumberA = a.gignumber;
+  const gigNumberB = b.gignumber;
+
+  let comparison = 0;
+  if (gigNumberB > gigNumberA ) {
+    comparison = 1;
+  } else if (gigNumberB < gigNumberA) {
+    comparison = -1;
+  }
+  return comparison
+}
+
 const MyGigsPosted = ({ myPostedGigs, togglePostedGigsHidden }) => (
   <MyGigsPostedContainer>
     <TitleContainer>
@@ -32,7 +45,7 @@ const MyGigsPosted = ({ myPostedGigs, togglePostedGigsHidden }) => (
     { 
       myPostedGigs.length
       ? <CardList
-          gigsArray={myPostedGigs}
+          gigsArray={myPostedGigs.sort(compare)}
         />
       : <NoGigsContainer>You have not posted any gigs</NoGigsContainer>
     }
