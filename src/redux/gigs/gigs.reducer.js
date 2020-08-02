@@ -29,7 +29,8 @@ const gigsReducer = (state = INITIAL_STATE, action) => {
     case GigsActionTypes.CLEAR_MY_GIGS:
       return {
         ...state,
-        myGigs: []
+        myGigs: [],
+        myPostedGigs: []
       };
     case GigsActionTypes.TOGGLE_POSTED_GIGS_HIDDEN:
       return {

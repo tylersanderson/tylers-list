@@ -6,7 +6,7 @@ import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 
 import { setCurrentUser } from '../../redux/user/user.actions';
-import { setUnassignedGigs, setMyGigs } from '../../redux/gigs/gigs.actions';
+import { setUnassignedGigs, setMyGigs, setMyPostedGigs } from '../../redux/gigs/gigs.actions';
 
 import {
   SignInContainer,
@@ -43,6 +43,26 @@ class SignIn extends React.Component {
       .then(gigs => {
           if (gigs[0].gignumber) {
             setMyGigs(gigs);
+          }
+      })
+    }
+  }
+
+  getMyPostedGigs = (userId) => {
+    const token = window.sessionStorage.getItem('token');
+    const { setMyPostedGigs } = this.props;
+    if (token) {
+      fetch(`${process.env.REACT_APP_API_URL}/gigs/all/postedby/${userId}`, {
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        }
+      })
+      .then(resp => resp.json())
+      .then(gigs => {
+          if (gigs[0].gignumber) {
+            setMyPostedGigs(gigs);
           }
       })
     }
@@ -94,6 +114,7 @@ class SignIn extends React.Component {
                 if (user && user.email) {
                   setCurrentUser(user);
                   this.getMyGigs(user.id);
+                  this.getMyPostedGigs(user.id);
                 }
               })
           }
@@ -162,7 +183,8 @@ class SignIn extends React.Component {
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user)),
   setUnassignedGigs: gigs => dispatch(setUnassignedGigs(gigs)),
-  setMyGigs: gigs => dispatch(setMyGigs(gigs))
+  setMyGigs: gigs => dispatch(setMyGigs(gigs)),
+  setMyPostedGigs: gigs => dispatch(setMyPostedGigs(gigs))
 });
 
 export default withRouter(connect(
