@@ -28,6 +28,7 @@ class GigDetails extends React.Component {
     super(props);
     this.handleTakeGigClick = this.handleTakeGigClick.bind(this);
     this.handleCompleteGigClick = this.handleCompleteGigClick.bind(this);
+    this.handleSignInRedirect = this.handleSignInRedirect.bind(this);
 
     this.state = {
   
@@ -155,6 +156,11 @@ class GigDetails extends React.Component {
     }
     this.props.toggleGigModal();
   }
+
+  handleSignInRedirect = () => {
+    this.props.toggleGigModal();
+    this.props.history.push('/signin');
+  }
  
   componentDidMount() {
     const token = window.sessionStorage.getItem('token');
@@ -196,12 +202,14 @@ class GigDetails extends React.Component {
     render() {
       const gigImage = this.props.gigimage || noImage
       let gigModalButton;
-      if (this.props.gigassignedto == 0) {
+      if (this.props.gigassignedto == 0  && this.props.currentUser.id > 0) {
         gigModalButton = <CustomButton onClick={this.handleTakeGigClick}>Take Gig</CustomButton>
       } else if (this.props.gigassignedto != 0 && this.props.isgigcomplete == true) {
         gigModalButton = <div>Gig Completed</div>
-      } else {
+      } else if (this.props.gigassignedto != 0 && this.props.isgigcomplete == false && this.props.currentUser.id > 0) {
         gigModalButton = <CustomButton onClick={this.handleCompleteGigClick}>Complete Gig</CustomButton>
+      } else {
+        gigModalButton = <CustomButton onClick={this.handleSignInRedirect}>Sign In</CustomButton>
       }
 
       return (

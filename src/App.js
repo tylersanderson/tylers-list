@@ -91,7 +91,7 @@ class App extends React.Component {
               if (user && user.email) {
                 setCurrentUser(user);
                 getMyGigs();
-                getMyPostedGigs()
+                getMyPostedGigs();
               }
             })
         }

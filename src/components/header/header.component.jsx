@@ -5,7 +5,6 @@ import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { clearCurrentUser } from '../../redux/user/user.actions';
 import { clearMyGigs } from '../../redux/gigs/gigs.actions';
-//import { ReactComponent as Logo } from '../../assets/crown.svg';
 
 import {
   HeaderContainer,
