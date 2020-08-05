@@ -36,7 +36,7 @@ export const GigCard = styled.div`
   position: relative;
   border-radius: .25rem;
   border-style: groove;
-  margin: 10px;
+  margin: 5px;
 `;
 
 export const ModalClose = styled.div`
@@ -58,7 +58,7 @@ export const CardImage = styled.div`
 
   .image {
     max-width: 70vw;
-    max-height: 30vh;
+    max-height: 25vh;
   }
 
 `;
@@ -88,7 +88,7 @@ export const CardPay = styled.div`
 export const CardStreet = styled.div`
   font-size: 15px;
   text-align: center;
-  padding: 5px 1px;
+  padding: 10px 1px;
 `
 
 export const GigPoster = styled.div`
