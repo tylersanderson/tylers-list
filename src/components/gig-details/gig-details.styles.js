@@ -88,14 +88,14 @@ export const CardPay = styled.div`
 export const CardStreet = styled.div`
   font-size: 15px;
   text-align: center;
-  padding: 10px 1px;
+  padding: 5px 1px;
 `
 
 export const GigPoster = styled.div`
   font-size: 15px;
   font-weight: bold;
   text-align: center;
-  padding: 10px 1px;
+  padding: 5px 1px;
 `
 
 export const SignInTitle = styled.h2`
