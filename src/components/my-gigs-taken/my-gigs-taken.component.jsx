@@ -26,7 +26,6 @@ const MyGigsTaken = ({ myGigs, togglePostedGigsHidden}) => (
       <MyGigsPostedTitleContainer onClick={togglePostedGigsHidden}> 
         Gigs I Have Posted
       </MyGigsPostedTitleContainer>
-      
     </TitleContainer>
     { 
       myGigs.length

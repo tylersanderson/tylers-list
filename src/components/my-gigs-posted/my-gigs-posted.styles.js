@@ -27,12 +27,12 @@ export const MyGigsPostedTitleContainer = styled.button`
   border-radius: 100px;
   &:hover {
     text-decoration: none;
-  
   }
 `;
 
 export const MyGigsTakenTitleContainer = styled.button`
-  height: 100%;
+  height: 50px;
+  padding: 10px 10px;
   color: black;
   border: none;
   background: none;
