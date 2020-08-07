@@ -12,30 +12,34 @@ import {
 } from './hopepage.styles';
 
 import { setUnassignedGigs, setSearchAvailableGigs } from '../../redux/gigs/gigs.actions';
-import { selectUnassignedGigs, selectSearchAvailableGigs } from '../../redux/gigs/gigs.selectors';
+import { selectUnassignedGigs, selectSearchAvailableGigs, selectGigsIsPending } from '../../redux/gigs/gigs.selectors';
 
-const HomePage = ({unassignedGigs, setSearchAvailableGigs, searchAvailableGigs}) => {
+const HomePage = ({unassignedGigs, setSearchAvailableGigs, searchAvailableGigs, gigsIsPending}) => {
   
   const updateSearch = (e) => {
     setSearchAvailableGigs(e.target.value);
   }
 
   return (
-  <HomePageContainer>
-    <AvailableGigsTitle>Gigs Available</AvailableGigsTitle>
-    <Searchbox searchChange={(e) => updateSearch(e)}/>
-    <CardList
-      gigsArray={unassignedGigs.filter(unassignedGigs => {
-        return unassignedGigs.concat.toLowerCase().includes(searchAvailableGigs.toLowerCase());
-      })}
-    />
-  </HomePageContainer>
-);
+    <HomePageContainer>
+      <AvailableGigsTitle>Gigs Available</AvailableGigsTitle>
+      <Searchbox searchChange={(e) => updateSearch(e)}/>
+      <CardList
+        gigsArray={unassignedGigs.filter(unassignedGigs => {
+          return unassignedGigs.concat.toLowerCase().includes(searchAvailableGigs.toLowerCase());
+        })}
+      />
+      <h2>
+        { gigsIsPending ? 'Gigs are loading...' : ''}
+      </h2>
+    </HomePageContainer>
+  );
 }
 
 const mapStateToProps = createStructuredSelector({
   unassignedGigs: selectUnassignedGigs,
-  searchAvailableGigs: selectSearchAvailableGigs
+  searchAvailableGigs: selectSearchAvailableGigs,
+  gigsIsPending: selectGigsIsPending
 });
 
 const mapDispatchToProps = dispatch => ({

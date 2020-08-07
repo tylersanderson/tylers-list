@@ -17,7 +17,7 @@ import ErrorBoundary from "./components/error-boundary/error-boundary.component"
 
 import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
-import { setUnassignedGigs, setMyGigs, setMyPostedGigs } from './redux/gigs/gigs.actions';
+import { setUnassignedGigs, setMyGigs, setMyPostedGigs, toggleGigsIsPending } from './redux/gigs/gigs.actions';
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
@@ -25,7 +25,7 @@ class App extends React.Component {
   async componentDidMount() {
     const token = window.sessionStorage.getItem('token');
     const { setCurrentUser } = this.props;
-    const { setUnassignedGigs } = this.props;
+    const { setUnassignedGigs, toggleGigsIsPending } = this.props;
 
     const getMyGigs = () => {
       const token = window.sessionStorage.getItem('token');
@@ -101,6 +101,7 @@ class App extends React.Component {
     }
 
     if (true) {
+      toggleGigsIsPending();
       fetch(`${process.env.REACT_APP_API_URL}/gigsunassigned`, {
         method: 'get',
         headers: {
@@ -192,7 +193,8 @@ const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user)),
   setUnassignedGigs: gigs => dispatch(setUnassignedGigs(gigs)),
   setMyGigs: gigs => dispatch(setMyGigs(gigs)),
-  setMyPostedGigs: gigs => dispatch(setMyPostedGigs(gigs))
+  setMyPostedGigs: gigs => dispatch(setMyPostedGigs(gigs)),
+  toggleGigsIsPending: () => dispatch(toggleGigsIsPending())
 });
 
 export default connect(

@@ -26,3 +26,8 @@ export const selectSearchAvailableGigs = createSelector(
   [selectGigs],
   gigs => gigs.searchAvailableGigs
 );
+
+export const selectGigsIsPending = createSelector(
+  [selectGigs],
+  gigs => gigs.gigsIsPending
+);

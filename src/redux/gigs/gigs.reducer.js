@@ -6,7 +6,8 @@ const INITIAL_STATE = {
   myGigs: [],
   myPostedGigs: [],
   postedGigsHidden: true,
-  searchAvailableGigs: ''
+  searchAvailableGigs: '',
+  gigsIsPending: false
 };
 
 const gigsReducer = (state = INITIAL_STATE, action) => {
@@ -14,7 +15,8 @@ const gigsReducer = (state = INITIAL_STATE, action) => {
     case GigsActionTypes.SET_UNASSIGNED_GIGS:
       return {
         ...state,
-        unassignedGigs: concatUnassignedGigs(action.payload)
+        unassignedGigs: concatUnassignedGigs(action.payload),
+        gigsIsPending: false
       };
     case GigsActionTypes.SET_MY_GIGS:
       return {
@@ -41,6 +43,11 @@ const gigsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         searchAvailableGigs: action.payload
+      };
+    case GigsActionTypes.TOGGLE_GIGS_IS_PENDING:
+      return {
+        ...state,
+        gigsIsPending: !state.gigsIsPending
       };
     default:
       return state;
