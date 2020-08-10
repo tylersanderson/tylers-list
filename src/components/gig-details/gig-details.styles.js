@@ -32,6 +32,7 @@ export const GigCard = styled.div`
   display: flex;
   flex-direction: column;
   height: auto;
+  overflow: scroll;
   align-items: center;
   position: relative;
   border-radius: .25rem;
