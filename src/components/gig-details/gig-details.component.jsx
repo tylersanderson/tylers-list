@@ -209,7 +209,7 @@ class GigDetails extends React.Component {
       } else if (this.props.gigassignedto != 0 && this.props.isgigcomplete == false && this.props.currentUser.id > 0) {
         gigModalButton = <CustomButton onClick={this.handleCompleteGigClick}>Complete Gig</CustomButton>
       } else {
-        gigModalButton = <CustomButton onClick={this.handleSignInRedirect}>Sign In</CustomButton>
+        gigModalButton = <CustomButton onClick={this.handleSignInRedirect}>Sign In To Take Gig</CustomButton>
       }
 
       return (
